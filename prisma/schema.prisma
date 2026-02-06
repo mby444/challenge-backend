@@ -18,6 +18,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   tasks     Task[]
+  tags      Tag[]
 }
 
 model Task {
@@ -29,6 +30,20 @@ model Task {
   user        User      @relation(fields: [userId], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  tags        Tag[]     @relation("TaskToTag")
 
+  @@index([userId])
+}
+
+model Tag {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  tasks     Task[]    @relation("TaskToTag") // Many-to-many relation from Task
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([userId, name]) // A user cannot have two tags with the same name
   @@index([userId])
 }

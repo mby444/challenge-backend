@@ -27,6 +27,18 @@ Base URL untuk API adalah `http://localhost:3000/api`.
 | `PATCH`     | `/api/tasks/:id` | Memperbarui tugas tertentu berdasarkan ID (milik pengguna yang login).      | Ya                     |
 | `DELETE`    | `/api/tasks/:id` | Menghapus tugas tertentu berdasarkan ID (milik pengguna yang login).        | Ya                     |
 
+## Endpoint Tag (`/api/tags`)
+
+| Metode HTTP | Path                    | Deskripsi                                                | Autentikasi Diperlukan |
+| :---------- | :---------------------- | :------------------------------------------------------- | :--------------------- |
+| `POST`      | `/api/tags`             | Membuat tag baru untuk pengguna yang login.              | Ya                     |
+| `GET`       | `/api/tags`             | Mengambil semua tag milik pengguna yang login.           | Ya                     |
+| `GET`       | `/api/tags/:id`         | Mengambil detail tag tertentu berdasarkan ID.            | Ya                     |
+| `PATCH`     | `/api/tags/:id`         | Memperbarui tag tertentu berdasarkan ID.                 | Ya                     |
+| `DELETE`    | `/api/tags/:id`         | Menghapus tag tertentu berdasarkan ID.                   | Ya                     |
+| `POST`      | `/api/tags/:tagId/tasks/:taskId` | Mengaitkan tag dengan tugas.                         | Ya                     |
+| `DELETE`    | `/api/tags/:tagId/tasks/:taskId` | Melepaskan tag dari tugas.                         | Ya                     |
+
 ## Catatan Penting:
 
 - **RESTful:** Endpoint didesain untuk merepresentasikan sumber daya dan operasi standar HTTP (CRUD).

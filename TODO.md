@@ -58,6 +58,17 @@
       - `DELETE /tasks/:id`: Hapus tugas tertentu untuk pengguna yang terautentikasi.
     - Lindungi semua endpoint tugas dengan JWT guards, memastikan pengguna hanya dapat memanipulasi tugas mereka sendiri.
 
+### Fase 2.5: Modul Tag
+
+1.  **Entitas Tag:**
+    - Buat entitas `Tag` dengan bidang seperti `id`, `name`, `userId`, `createdAt`, `updatedAt`.
+    - Bangun relasi many-to-many antara entitas `Task` dan `Tag`.
+
+2.  **Modul Tag:**
+    - Buat `TagsController` dan `TagsService`.
+    - Implementasikan operasi CRUD untuk tag (buat, dapatkan semua untuk pengguna, dapatkan berdasarkan ID, perbarui, hapus).
+    - Lindungi semua endpoint tag dengan JWT guards, memastikan pengguna hanya dapat memanipulasi tag mereka sendiri.
+
 ### Fase 3: Pengujian
 
 1.  **Penyiapan Pengujian E2E:**

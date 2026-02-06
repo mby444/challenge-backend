@@ -35,6 +35,13 @@ src/
 │   ├── users.service.ts
 │   └── dto/                # Data Transfer Objects untuk Users
 │       └── update-user.dto.ts
+├── tags/                   # Modul Tag
+│   ├── tags.controller.ts
+│   ├── tags.module.ts
+│   ├── tags.service.ts
+│   └── dto/                # Data Transfer Objects untuk Tags
+│       ├── create-tag.dto.ts
+│       └── update-tag.dto.ts
 └── ...                     # Modul fitur lainnya
 ```
 
@@ -92,6 +99,13 @@ Modul yang mengelola informasi pengguna. Ini akan menjadi modul yang relatif tip
 - `users.module.ts`: Mengatur modul pengguna.
 - `users.service.ts`: Berisi logika bisnis untuk operasi pengguna, berinteraksi dengan `PrismaClient`.
 - `dto/`: Berisi DTOs untuk validasi input seperti `UpdateUserDto`.
+
+### `tags/`
+Modul yang menangani semua operasi terkait tag (CRUD) serta mengelola relasi tag dengan tugas.
+*   `tags.controller.ts`: Menangani permintaan HTTP untuk membuat, membaca, memperbarui, dan menghapus tag.
+*   `tags.module.ts`: Mengatur modul tag.
+*   `tags.service.ts`: Berisi logika bisnis untuk operasi tag, berinteraksi dengan `PrismaClient` untuk persistensi data. Juga menangani pengaitan dan pelepasan tag dengan tugas.
+*   `dto/`: Berisi DTOs untuk validasi input seperti `CreateTagDto` dan `UpdateTagDto`.
 
 ## Manfaat Pola Ini
 
