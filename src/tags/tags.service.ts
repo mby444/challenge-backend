@@ -6,7 +6,6 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { TasksService } from 'src/tasks/tasks.service';
 
 @Injectable()
 export class TagsService {
