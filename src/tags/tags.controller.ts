@@ -63,6 +63,6 @@ export class TagsController {
     @Param('tagId') tagId: string,
     @Param('taskId') taskId: string,
   ) {
-    return this.detachFromTask(req.user.id, tagId, taskId);
+    return this.tagsService.detachFromTask(req.user.id, tagId, taskId);
   }
 }
