@@ -8,5 +8,6 @@ import { PassportModule } from '@nestjs/passport';
   imports: [PassportModule.register({ defaultStrategy: 'jwt' })],
   controllers: [TasksController],
   providers: [TasksService],
+  exports: [TasksService],
 })
 export class TasksModule {}
