@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, HttpStatus } from '@nestjs/common';
+import { INestApplication, HttpStatus, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
@@ -37,6 +37,7 @@ describe('TasksModule (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
     await app.init();
     prismaService = app.get(PrismaService);
     await cleanDb(prismaService);
@@ -48,7 +49,9 @@ describe('TasksModule (e2e)', () => {
       password: userARegisterDto.password,
     });
     userAToken = getAccessToken(loginAResponse);
-    const userA = await prismaService.user.findUnique({ where: { email: userARegisterDto.email } });
+    const userA = await prismaService.user.findUnique({
+      where: { email: userARegisterDto.email },
+    });
     userAId = userA.id;
 
     // Register and login User B
@@ -58,7 +61,9 @@ describe('TasksModule (e2e)', () => {
       password: userBRegisterDto.password,
     });
     userBToken = getAccessToken(loginBResponse);
-    const userB = await prismaService.user.findUnique({ where: { email: userBRegisterDto.email } });
+    const userB = await prismaService.user.findUnique({
+      where: { email: userBRegisterDto.email },
+    });
     userBId = userB.id;
   });
 
@@ -95,7 +100,9 @@ describe('TasksModule (e2e)', () => {
         .send(invalidCreateTaskDto);
 
       expect(response.status).toBe(HttpStatus.BAD_REQUEST);
-      expect(response.body.message).toEqual(expect.arrayContaining(['title should not be empty']));
+      expect(response.body.message).toEqual(
+        expect.arrayContaining(['title should not be empty']),
+      );
     });
 
     it('[Gagal] Membuat tugas tanpa token autentikasi.', async () => {
@@ -134,8 +141,12 @@ describe('TasksModule (e2e)', () => {
       expect(response.status).toBe(HttpStatus.OK);
       expect(response.body).toBeInstanceOf(Array);
       expect(response.body.length).toBe(2);
-      expect(response.body.map(task => task.title)).toEqual(expect.arrayContaining(['Task A1', 'Task A2']));
-      expect(response.body.map(task => task.userId)).toEqual(expect.arrayContaining([userAId, userAId]));
+      expect(response.body.map((task) => task.title)).toEqual(
+        expect.arrayContaining(['Task A1', 'Task A2']),
+      );
+      expect(response.body.map((task) => task.userId)).toEqual(
+        expect.arrayContaining([userAId, userAId]),
+      );
     });
 
     it('[Sukses] Pengguna yang belum punya tugas mengambil daftar tugasnya.', async () => {
@@ -161,8 +172,7 @@ describe('TasksModule (e2e)', () => {
     });
 
     it('[Gagal] Mengambil daftar tugas tanpa token autentikasi.', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/api/tasks');
+      const response = await request(app.getHttpServer()).get('/api/tasks');
 
       expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
     });
@@ -216,8 +226,9 @@ describe('TasksModule (e2e)', () => {
     });
 
     it('[Gagal] Mengambil detail tugas tanpa token autentikasi.', async () => {
-      const response = await request(app.getHttpServer())
-        .get(`/api/tasks/${userATaskId}`);
+      const response = await request(app.getHttpServer()).get(
+        `/api/tasks/${userATaskId}`,
+      );
 
       expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
     });
@@ -242,7 +253,10 @@ describe('TasksModule (e2e)', () => {
     });
 
     it('[Sukses] Pengguna A memperbarui tugas miliknya.', async () => {
-      const updateTaskDto: UpdateTaskDto = { title: 'Updated User A Task', isCompleted: true };
+      const updateTaskDto: UpdateTaskDto = {
+        title: 'Updated User A Task',
+        isCompleted: true,
+      };
       const response = await request(app.getHttpServer())
         .patch(`/api/tasks/${userATaskId}`)
         .set('Authorization', `Bearer ${userAToken}`)
@@ -338,8 +352,9 @@ describe('TasksModule (e2e)', () => {
     });
 
     it('[Gagal] Menghapus tugas tanpa token autentikasi.', async () => {
-      const response = await request(app.getHttpServer())
-        .delete(`/api/tasks/${userATaskId}`);
+      const response = await request(app.getHttpServer()).delete(
+        `/api/tasks/${userATaskId}`,
+      );
 
       expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
     });

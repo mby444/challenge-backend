@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, HttpStatus } from '@nestjs/common';
+import { INestApplication, HttpStatus, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
@@ -27,6 +27,7 @@ describe('UsersModule (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
     await app.init();
     prismaService = app.get(PrismaService);
     await cleanDb(prismaService);
@@ -59,8 +60,7 @@ describe('UsersModule (e2e)', () => {
     });
 
     it('[Gagal] Mengakses tanpa token atau dengan token yang tidak valid.', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/api/users/me'); // No token
+      const response = await request(app.getHttpServer()).get('/api/users/me'); // No token
 
       expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
     });
@@ -81,7 +81,9 @@ describe('UsersModule (e2e)', () => {
       expect(response.status).toBe(HttpStatus.OK);
       expect(response.body).toBeDefined();
       expect(response.body.name).toBe(updateUserDto.name);
-      expect(new Date(response.body.birth).toISOString()).toBe(updateUserDto.birth.toISOString());
+      expect(new Date(response.body.birth).toISOString()).toBe(
+        updateUserDto.birth.toISOString(),
+      );
     });
 
     it('[Gagal] Mengakses tanpa token atau dengan token yang tidak valid.', async () => {
@@ -103,7 +105,9 @@ describe('UsersModule (e2e)', () => {
         .send(invalidUpdateUserDto);
 
       expect(response.status).toBe(HttpStatus.BAD_REQUEST);
-      expect(response.body.message).toEqual(expect.arrayContaining(['name must be a string']));
+      expect(response.body.message).toEqual(
+        expect.arrayContaining(['name must be a string']),
+      );
     });
   });
 
@@ -124,8 +128,9 @@ describe('UsersModule (e2e)', () => {
     });
 
     it('[Gagal] Mengakses tanpa token atau dengan token yang tidak valid.', async () => {
-      const response = await request(app.getHttpServer())
-        .delete('/api/users/me'); // No token
+      const response = await request(app.getHttpServer()).delete(
+        '/api/users/me',
+      ); // No token
 
       expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
     });

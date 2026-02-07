@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, HttpStatus } from '@nestjs/common';
+import { INestApplication, HttpStatus, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
@@ -37,6 +37,7 @@ describe('TagsModule (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
     await app.init();
     prismaService = app.get(PrismaService);
     await cleanDb(prismaService);
@@ -48,7 +49,9 @@ describe('TagsModule (e2e)', () => {
       password: userARegisterDto.password,
     });
     userAToken = getAccessToken(loginAResponse);
-    const userA = await prismaService.user.findUnique({ where: { email: userARegisterDto.email } });
+    const userA = await prismaService.user.findUnique({
+      where: { email: userARegisterDto.email },
+    });
     userAId = userA.id;
 
     // Register and login User B
@@ -58,7 +61,9 @@ describe('TagsModule (e2e)', () => {
       password: userBRegisterDto.password,
     });
     userBToken = getAccessToken(loginBResponse);
-    const userB = await prismaService.user.findUnique({ where: { email: userBRegisterDto.email } });
+    const userB = await prismaService.user.findUnique({
+      where: { email: userBRegisterDto.email },
+    });
     userBId = userB.id;
   });
 
@@ -93,7 +98,9 @@ describe('TagsModule (e2e)', () => {
         .send(createTagDto);
 
       expect(response.status).toBe(HttpStatus.CONFLICT);
-      expect(response.body.message).toBe('Tag with this name already exists for this user');
+      expect(response.body.message).toBe(
+        'Tag with this name already exists for this user',
+      );
     });
 
     it('[Gagal] Membuat tag tanpa token autentikasi.', async () => {
@@ -132,13 +139,16 @@ describe('TagsModule (e2e)', () => {
       expect(response.status).toBe(HttpStatus.OK);
       expect(response.body).toBeInstanceOf(Array);
       expect(response.body.length).toBe(2);
-      expect(response.body.map(tag => tag.name)).toEqual(expect.arrayContaining(['Work', 'Personal']));
-      expect(response.body.map(tag => tag.userId)).toEqual(expect.arrayContaining([userAId, userAId]));
+      expect(response.body.map((tag) => tag.name)).toEqual(
+        expect.arrayContaining(['Work', 'Personal']),
+      );
+      expect(response.body.map((tag) => tag.userId)).toEqual(
+        expect.arrayContaining([userAId, userAId]),
+      );
     });
 
     it('[Gagal] Mengambil daftar tag tanpa token autentikasi.', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/api/tags');
+      const response = await request(app.getHttpServer()).get('/api/tags');
 
       expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
     });
@@ -246,10 +256,11 @@ describe('TagsModule (e2e)', () => {
         .send(updateTagDto);
 
       expect(response.status).toBe(HttpStatus.CONFLICT);
-      expect(response.body.message).toBe('Tag with this name already exists for this user');
+      expect(response.body.message).toBe(
+        'Tag with this name already exists for this user',
+      );
     });
   });
-
 
   describe('DELETE /api/tags/:id', () => {
     let userATagId: string;
@@ -338,7 +349,9 @@ describe('TagsModule (e2e)', () => {
 
         expect(taskResponse.status).toBe(HttpStatus.OK);
         expect(taskResponse.body.tags).toBeDefined();
-        expect(taskResponse.body.tags.some(tag => tag.id === userATagId)).toBeTruthy();
+        expect(
+          taskResponse.body.tags.some((tag) => tag.id === userATagId),
+        ).toBeTruthy();
       });
 
       it('[Gagal] Mengaitkan dengan ID tugas atau ID tag yang tidak valid.', async () => {
@@ -368,8 +381,9 @@ describe('TagsModule (e2e)', () => {
       });
 
       it('[Gagal] Mengaitkan tanpa token autentikasi.', async () => {
-        const response = await request(app.getHttpServer())
-          .post(`/api/tags/${userATagId}/tasks/${userATaskId}`);
+        const response = await request(app.getHttpServer()).post(
+          `/api/tags/${userATagId}/tasks/${userATaskId}`,
+        );
 
         expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
       });
@@ -397,7 +411,9 @@ describe('TagsModule (e2e)', () => {
 
         expect(taskResponse.status).toBe(HttpStatus.OK);
         expect(taskResponse.body.tags).toBeDefined();
-        expect(taskResponse.body.tags.some(tag => tag.id === userATagId)).toBeFalsy();
+        expect(
+          taskResponse.body.tags.some((tag) => tag.id === userATagId),
+        ).toBeFalsy();
       });
 
       it('[Gagal] Melepaskan asosiasi dengan ID tugas atau ID tag yang tidak valid.', async () => {
@@ -419,8 +435,9 @@ describe('TagsModule (e2e)', () => {
       });
 
       it('[Gagal] Melepaskan asosiasi tanpa token autentikasi.', async () => {
-        const response = await request(app.getHttpServer())
-          .delete(`/api/tags/${userATagId}/tasks/${userATaskId}`);
+        const response = await request(app.getHttpServer()).delete(
+          `/api/tags/${userATagId}/tasks/${userATaskId}`,
+        );
 
         expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
       });

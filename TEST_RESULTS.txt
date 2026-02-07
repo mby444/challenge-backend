@@ -1,0 +1,646 @@
+> challenge-backend@0.0.1 test:e2e  
+> jest --config ./test/jest-e2e.json
+
+[Nest] 13672  - 02/07/2026, 2:59:03 PM   ERROR [ExceptionsHandler] PrismaClientValidationError: 
+Invalid `this.prisma.user.update()` invocation in
+E:\node-project\challenge-backend\src\users\users.service.ts:18:58
+
+  15 }
+  16
+  17 async update(userId: string, updateUserDto: UpdateUserDto) {
+→ 18   const { password, ...user } = await this.prisma.user.update({
+         where: {
+           id: "e48a77ce-e80d-49cf-bf75-eff44a160ceb"
+         },
+         data: {
+           name: 123
+                 ~~~
+         }
+       })
+
+Argument `name`: Invalid value provided. Expected String or StringFieldUpdateOperationsInput, provided Int.
+    at rr (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\errorRendering\throwValidationException.ts:46:9)
+    at Vr.throwValidationException [as handleRequestError] (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:202:7)
+    at Vr.handleAndLogRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:174:12)
+    at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+    at UsersService.update (E:\node-project\challenge-backend\src\users\users.service.ts:18:35)
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {
+  clientVersion: '7.3.0'
+}
+ FAIL  test/users.e2e-spec.ts (16.274 s)
+  ● UsersModule (e2e) › PATCH /api/users/me › [Gagal] Memperbarui dengan data yang tidak valid (misalnya, nama bukan string).
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 500
+
+      103 |         .send(invalidUpdateUserDto);
+      104 |
+    > 105 |       expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+          |                               ^
+      106 |       expect(response.body.message).toEqual(expect.arrayContaining(['name must be a string']));
+      107 |     });
+      108 |   });
+
+      at Object.<anonymous> (users.e2e-spec.ts:105:31)
+
+ FAIL  test/auth.e2e-spec.ts (6.202 s)     
+  ● AuthModule (e2e) › POST /api/auth/register › [Gagal] Mendaftar dengan data yang tidak valid (email salah format, password pendek).
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      63 |       const response = await registerUser(app, invalidUserDto as RegisterUserDto);
+      64 |
+    > 65 |       expect(response.status).toBe(400);
+         |                               ^
+      66 |       expect(response.body.message).toEqual(expect.arrayContaining([
+      67 |         'email must be an email',
+      68 |         'password must be longer than or equal to 6 characters',
+
+      at Object.<anonymous> (auth.e2e-spec.ts:65:31)
+
+  ● AuthModule (e2e) › POST /api/auth/login › [Sukses] Login dengan email dan password yang benar.       
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+      82 |       });
+      83 |
+    > 84 |       expect(response.status).toBe(200);
+         |                               ^
+      85 |       expect(response.body).toBeDefined();
+      86 |       expect(response.body.access_token).toBeDefined();
+      87 |     });
+
+      at Object.<anonymous> (auth.e2e-spec.ts:84:31)
+
+[Nest] 18552  - 02/07/2026, 2:59:14 PM   ERROR [ExceptionsHandler] PrismaClientKnownRequestError:        
+Invalid `this.prisma.tag.update()` invocation in
+E:\node-project\challenge-backend\src\tags\tags.service.ts:58:28
+
+  55   );
+  56 }
+  57
+→ 58 return this.prisma.tag.update(
+Unique constraint failed on the fields: (`userId`, `name`)
+    at Vr.handleRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:228:13)
+    at Vr.handleAndLogRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:174:12)
+    at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {
+  code: 'P2002',
+  meta: {
+    modelName: 'Tag',
+    driverAdapterError: DriverAdapterError: UniqueConstraintViolation
+        at PrismaBetterSqlite3Adapter.onError (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:568:11)
+        at PrismaBetterSqlite3Adapter.performIO (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:563:12)
+        at PrismaBetterSqlite3Adapter.queryRaw (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:504:63)
+        at E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:184:16
+        at callback (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\tracing.ts:80:12)
+        at e.withQuerySpanAndEvent (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:363:12)
+        at e.#withQuerySpanAndEvent [as interpretNode] (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:182:37)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:209:52)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:124:40)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:268:52)
+        at e.run (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:93:34)
+        at execute (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\LocalExecutor.ts:81:36)
+        at Dt.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\ClientEngine.ts:461:37)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at Object.singleLoader (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:112:26)
+        at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:140:14)
+        at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+        at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+        at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {     
+      cause: {
+        originalCode: 'SQLITE_CONSTRAINT_UNIQUE',
+        originalMessage: 'UNIQUE constraint failed: Tag.userId, Tag.name',
+        kind: 'UniqueConstraintViolation',
+        constraint: {
+          fields: [
+            'userId',
+            'name'
+          ]
+        }
+      }
+    }
+  },
+  clientVersion: '7.3.0'
+}
+ PASS  test/app.e2e-spec.ts
+ FAIL  test/tasks.e2e-spec.ts (30.959 s)
+  ● TasksModule (e2e) › POST /api/tasks › [Sukses] Pengguna A membuat tugas baru dengan data yang valid. 
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      50 |     userAToken = getAccessToken(loginAResponse);
+      51 |     const userA = await prismaService.user.findUnique({ where: { email: userARegisterDto.email } });
+    > 52 |     userAId = userA.id;
+         |                     ^
+      53 |
+      54 |     // Register and login User B
+      55 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:52:21)
+
+  ● TasksModule (e2e) › POST /api/tasks › [Gagal] Membuat tugas dengan data yang tidak valid (misalnya, judul kosong).
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      50 |     userAToken = getAccessToken(loginAResponse);
+      51 |     const userA = await prismaService.user.findUnique({ where: { email: userARegisterDto.email } });
+    > 52 |     userAId = userA.id;
+         |                     ^
+      53 |
+      54 |     // Register and login User B
+      55 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:52:21)
+
+  ● TasksModule (e2e) › POST /api/tasks › [Gagal] Membuat tugas tanpa token autentikasi.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      50 |     userAToken = getAccessToken(loginAResponse);
+      51 |     const userA = await prismaService.user.findUnique({ where: { email: userARegisterDto.email } });
+    > 52 |     userAId = userA.id;
+         |                     ^
+      53 |
+      54 |     // Register and login User B
+      55 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:52:21)
+
+  ● TasksModule (e2e) › GET /api/tasks › [Sukses] Pengguna A mengambil daftar tugasnya.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+      132 |         .set('Authorization', `Bearer ${userAToken}`);
+      133 |
+    > 134 |       expect(response.status).toBe(HttpStatus.OK);
+          |                               ^
+      135 |       expect(response.body).toBeInstanceOf(Array);
+      136 |       expect(response.body.length).toBe(2);
+      137 |       expect(response.body.map(task => task.title)).toEqual(expect.arrayContaining(['Task A1', 'Task A2']));
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:134:31)
+
+  ● TasksModule (e2e) › GET /api/tasks › [Sukses] Pengguna yang belum punya tugas mengambil daftar tugasnya.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      50 |     userAToken = getAccessToken(loginAResponse);
+      51 |     const userA = await prismaService.user.findUnique({ where: { email: userARegisterDto.email } });
+    > 52 |     userAId = userA.id;
+         |                     ^
+      53 |
+      54 |     // Register and login User B
+      55 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:52:21)
+
+  ● TasksModule (e2e) › GET /api/tasks/:id › [Gagal] Pengguna A mengambil detail tugas yang tidak ada (ID salah).
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "Task not found"
+    Received: "Task with ID clsd0l0gq00003l7998o6w2h1 not found"
+
+      205 |
+      206 |       expect(response.status).toBe(HttpStatus.NOT_FOUND);
+    > 207 |       expect(response.body.message).toBe('Task not found');
+          |                                     ^
+      208 |     });
+      209 |
+      210 |     it('[Gagal] Pengguna B mencoba mengambil detail tugas milik Pengguna A.', async () => {  
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:207:37)
+
+  ● TasksModule (e2e) › GET /api/tasks/:id › [Gagal] Pengguna B mencoba mengambil detail tugas milik Pengguna A.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      60 |     userBToken = getAccessToken(loginBResponse);
+      61 |     const userB = await prismaService.user.findUnique({ where: { email: userBRegisterDto.email } });
+    > 62 |     userBId = userB.id;
+         |                     ^
+      63 |   });
+      64 |
+      65 |   afterAll(async () => {
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:62:21)
+
+  ● TasksModule (e2e) › PATCH /api/tasks/:id › [Sukses] Pengguna A memperbarui tugas miliknya.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      50 |     userAToken = getAccessToken(loginAResponse);
+      51 |     const userA = await prismaService.user.findUnique({ where: { email: userARegisterDto.email } });
+    > 52 |     userAId = userA.id;
+         |                     ^
+      53 |
+      54 |     // Register and login User B
+      55 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:52:21)
+
+  ● TasksModule (e2e) › PATCH /api/tasks/:id › [Gagal] Pengguna B mencoba memperbarui tugas milik Pengguna A.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      50 |     userAToken = getAccessToken(loginAResponse);
+      51 |     const userA = await prismaService.user.findUnique({ where: { email: userARegisterDto.email } });
+    > 52 |     userAId = userA.id;
+         |                     ^
+      53 |
+      54 |     // Register and login User B
+      55 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:52:21)
+
+  ● TasksModule (e2e) › PATCH /api/tasks/:id › [Gagal] Pengguna A memperbarui tugas yang tidak ada (ID salah).
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "Task not found"
+    Received: "Task with ID clsd0l0gq00003l7998o6w2h1 not found"
+
+      275 |
+      276 |       expect(response.status).toBe(HttpStatus.NOT_FOUND);
+    > 277 |       expect(response.body.message).toBe('Task not found');
+          |                                     ^
+      278 |     });
+      279 |
+      280 |     it('[Gagal] Memperbarui tugas tanpa token autentikasi.', async () => {
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:277:37)
+
+  ● TasksModule (e2e) › DELETE /api/tasks/:id › [Sukses] Pengguna A menghapus tugas miliknya.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 204
+    Received: 401
+
+      311 |         .set('Authorization', `Bearer ${userAToken}`);
+      312 |
+    > 313 |       expect(response.status).toBe(HttpStatus.NO_CONTENT);
+          |                               ^
+      314 |
+      315 |       // Verify the task is deleted
+      316 |       const getResponse = await request(app.getHttpServer())
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:313:31)
+
+  ● TasksModule (e2e) › DELETE /api/tasks/:id › [Gagal] Pengguna B mencoba menghapus tugas milik Pengguna A.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 401
+    Received: 404
+
+      325 |         .set('Authorization', `Bearer ${userBToken}`);
+      326 |
+    > 327 |       expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
+          |                               ^
+      328 |     });
+      329 |
+      330 |     it('[Gagal] Pengguna A menghapus tugas yang tidak ada (ID salah).', async () => {        
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:327:31)
+
+  ● TasksModule (e2e) › DELETE /api/tasks/:id › [Gagal] Pengguna A menghapus tugas yang tidak ada (ID salah).
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "Task not found"
+    Received: "Task with ID clsd0l0gq00003l7998o6w2h1 not found"
+
+      335 |
+      336 |       expect(response.status).toBe(HttpStatus.NOT_FOUND);
+    > 337 |       expect(response.body.message).toBe('Task not found');
+          |                                     ^
+      338 |     });
+      339 |
+      340 |     it('[Gagal] Menghapus tugas tanpa token autentikasi.', async () => {
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:337:37)
+
+ FAIL  test/tags.e2e-spec.ts (35.008 s)
+  ● TagsModule (e2e) › POST /api/tags › [Sukses] Pengguna A membuat tag baru dengan data yang valid.     
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 201
+    Received: 401
+
+      75 |         .send(createTagDto);
+      76 |
+    > 77 |       expect(response.status).toBe(HttpStatus.CREATED);
+         |                               ^
+      78 |       expect(response.body).toBeDefined();
+      79 |       expect(response.body.name).toBe(createTagDto.name);
+      80 |       expect(response.body.userId).toBe(userAId);
+
+      at Object.<anonymous> (tags.e2e-spec.ts:77:31)
+
+  ● TagsModule (e2e) › POST /api/tags › [Gagal] Membuat tag dengan nama yang duplikat untuk pengguna yang sama.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      60 |     userBToken = getAccessToken(loginBResponse);
+      61 |     const userB = await prismaService.user.findUnique({ where: { email: userBRegisterDto.email } });
+    > 62 |     userBId = userB.id;
+         |                     ^
+      63 |   });
+      64 |
+      65 |   afterAll(async () => {
+
+      at Object.<anonymous> (tags.e2e-spec.ts:62:21)
+
+  ● TagsModule (e2e) › POST /api/tags › [Gagal] Membuat tag tanpa token autentikasi.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      60 |     userBToken = getAccessToken(loginBResponse);
+      61 |     const userB = await prismaService.user.findUnique({ where: { email: userBRegisterDto.email } });
+    > 62 |     userBId = userB.id;
+         |                     ^
+      63 |   });
+      64 |
+      65 |   afterAll(async () => {
+
+      at Object.<anonymous> (tags.e2e-spec.ts:62:21)
+
+  ● TagsModule (e2e) › GET /api/tags › [Sukses] Pengguna A mengambil daftar tag-nya.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+      130 |         .set('Authorization', `Bearer ${userAToken}`);
+      131 |
+    > 132 |       expect(response.status).toBe(HttpStatus.OK);
+          |                               ^
+      133 |       expect(response.body).toBeInstanceOf(Array);
+      134 |       expect(response.body.length).toBe(2);
+      135 |       expect(response.body.map(tag => tag.name)).toEqual(expect.arrayContaining(['Work', 'Personal']));
+
+      at Object.<anonymous> (tags.e2e-spec.ts:132:31)
+
+  ● TagsModule (e2e) › GET /api/tags/:id › [Gagal] Pengguna B mencoba mengambil detail tag milik Pengguna A.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      60 |     userBToken = getAccessToken(loginBResponse);
+      61 |     const userB = await prismaService.user.findUnique({ where: { email: userBRegisterDto.email } });
+    > 62 |     userBId = userB.id;
+         |                     ^
+      63 |   });
+      64 |
+      65 |   afterAll(async () => {
+
+      at Object.<anonymous> (tags.e2e-spec.ts:62:21)
+
+  ● TagsModule (e2e) › GET /api/tags/:id › [Gagal] Mengambil detail tag yang tidak ada.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "Tag not found"
+    Received: "Tag with ID clsd0l0gq00003l7998o6w2h1 not found"
+
+      183 |
+      184 |       expect(response.status).toBe(HttpStatus.NOT_FOUND);
+    > 185 |       expect(response.body.message).toBe('Tag not found');
+          |                                     ^
+      186 |     });
+      187 |   });
+      188 |
+
+      at Object.<anonymous> (tags.e2e-spec.ts:185:37)
+
+  ● TagsModule (e2e) › PATCH /api/tags/:id › [Sukses] Pengguna A memperbarui tag miliknya.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      50 |     userAToken = getAccessToken(loginAResponse);
+      51 |     const userA = await prismaService.user.findUnique({ where: { email: userARegisterDto.email } });
+    > 52 |     userAId = userA.id;
+         |                     ^
+      53 |
+      54 |     // Register and login User B
+      55 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:21)
+
+  ● TagsModule (e2e) › PATCH /api/tags/:id › [Gagal] Pengguna B mencoba memperbarui tag milik Pengguna A.
+    TypeError: Cannot read properties of null (reading 'id')
+
+      50 |     userAToken = getAccessToken(loginAResponse);
+      51 |     const userA = await prismaService.user.findUnique({ where: { email: userARegisterDto.email } });
+    > 52 |     userAId = userA.id;
+         |                     ^
+      53 |
+      54 |     // Register and login User B
+      55 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:21)
+
+  ● TagsModule (e2e) › PATCH /api/tags/:id › [Gagal] Memperbarui tag yang tidak ada.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "Tag not found"
+    Received: "Tag with ID clsd0l0gq00003l7998o6w2h1 not found"
+
+      230 |
+      231 |       expect(response.status).toBe(HttpStatus.NOT_FOUND);
+    > 232 |       expect(response.body.message).toBe('Tag not found');
+          |                                     ^
+      233 |     });
+      234 |
+      235 |     it('[Gagal] Memperbarui dengan nama tag duplikat untuk pengguna yang sama.', async () => 
+{
+
+      at Object.<anonymous> (tags.e2e-spec.ts:232:37)
+
+  ● TagsModule (e2e) › PATCH /api/tags/:id › [Gagal] Memperbarui dengan nama tag duplikat untuk pengguna 
+yang sama.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 409
+    Received: 500
+
+      246 |         .send(updateTagDto);
+      247 |
+    > 248 |       expect(response.status).toBe(HttpStatus.CONFLICT);
+          |                               ^
+      249 |       expect(response.body.message).toBe('Tag with this name already exists for this user'); 
+      250 |     });
+      251 |   });
+
+      at Object.<anonymous> (tags.e2e-spec.ts:248:31)
+
+  ● TagsModule (e2e) › DELETE /api/tags/:id › [Sukses] Pengguna A menghapus tag miliknya.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      50 |     userAToken = getAccessToken(loginAResponse);
+      51 |     const userA = await prismaService.user.findUnique({ where: { email: userARegisterDto.email } });
+    > 52 |     userAId = userA.id;
+         |                     ^
+      53 |
+      54 |     // Register and login User B
+      55 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:21)
+
+  ● TagsModule (e2e) › DELETE /api/tags/:id › [Gagal] Pengguna B mencoba menghapus tag milik Pengguna A. 
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 401
+    Received: 404
+
+      282 |         .set('Authorization', `Bearer ${userBToken}`);
+      283 |
+    > 284 |       expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
+          |                               ^
+      285 |     });
+      286 |
+      287 |     it('[Gagal] Menghapus tag yang tidak ada.', async () => {
+
+      at Object.<anonymous> (tags.e2e-spec.ts:284:31)
+
+  ● TagsModule (e2e) › DELETE /api/tags/:id › [Gagal] Menghapus tag yang tidak ada.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      50 |     userAToken = getAccessToken(loginAResponse);
+      51 |     const userA = await prismaService.user.findUnique({ where: { email: userARegisterDto.email } });
+    > 52 |     userAId = userA.id;
+         |                     ^
+      53 |
+      54 |     // Register and login User B
+      55 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:21)
+
+  ● TagsModule (e2e) › Suite Pengujian: Asosiasi Tugas-Tag (/api/tags/.../tasks/...) › POST /api/tags/:tagId/tasks/:taskId › [Sukses] Mengaitkan tag milik Pengguna A dengan tugas milik Pengguna A.
+
+    ReferenceError: createTaskBBResponse is not defined
+
+      321 |         .set('Authorization', `Bearer ${userBToken}`)
+      322 |         .send({ title: 'User B Task for Tagging' });
+    > 323 |       userBTaskId = createTaskBBResponse.body.id;
+          |       ^
+      324 |     });
+      325 |
+      326 |     describe('POST /api/tags/:tagId/tasks/:taskId', () => {
+
+      at Object.<anonymous> (tags.e2e-spec.ts:323:7)
+
+  ● TagsModule (e2e) › Suite Pengujian: Asosiasi Tugas-Tag (/api/tags/.../tasks/...) › POST /api/tags/:tagId/tasks/:taskId › [Gagal] Mengaitkan dengan ID tugas atau ID tag yang tidak valid.
+
+    ReferenceError: createTaskBBResponse is not defined
+
+      321 |         .set('Authorization', `Bearer ${userBToken}`)
+      322 |         .send({ title: 'User B Task for Tagging' });
+    > 323 |       userBTaskId = createTaskBBResponse.body.id;
+          |       ^
+      324 |     });
+      325 |
+      326 |     describe('POST /api/tags/:tagId/tasks/:taskId', () => {
+
+      at Object.<anonymous> (tags.e2e-spec.ts:323:7)
+
+  ● TagsModule (e2e) › Suite Pengujian: Asosiasi Tugas-Tag (/api/tags/.../tasks/...) › POST /api/tags/:tagId/tasks/:taskId › [Gagal] Mengaitkan tag milik Pengguna A dengan tugas milik Pengguna B.
+
+    ReferenceError: createTaskBBResponse is not defined
+
+      321 |         .set('Authorization', `Bearer ${userBToken}`)
+      322 |         .send({ title: 'User B Task for Tagging' });
+    > 323 |       userBTaskId = createTaskBBResponse.body.id;
+          |       ^
+      324 |     });
+      325 |
+      326 |     describe('POST /api/tags/:tagId/tasks/:taskId', () => {
+
+      at Object.<anonymous> (tags.e2e-spec.ts:323:7)
+
+  ● TagsModule (e2e) › Suite Pengujian: Asosiasi Tugas-Tag (/api/tags/.../tasks/...) › POST /api/tags/:tagId/tasks/:taskId › [Gagal] Mengaitkan tanpa token autentikasi.
+
+    ReferenceError: createTaskBBResponse is not defined
+
+      321 |         .set('Authorization', `Bearer ${userBToken}`)
+      322 |         .send({ title: 'User B Task for Tagging' });
+    > 323 |       userBTaskId = createTaskBBResponse.body.id;
+          |       ^
+      324 |     });
+      325 |
+      326 |     describe('POST /api/tags/:tagId/tasks/:taskId', () => {
+
+      at Object.<anonymous> (tags.e2e-spec.ts:323:7)
+
+  ● TagsModule (e2e) › Suite Pengujian: Asosiasi Tugas-Tag (/api/tags/.../tasks/...) › DELETE /api/tags/:tagId/tasks/:taskId › [Sukses] Melepaskan asosiasi tag dari tugas.
+
+    ReferenceError: createTaskBBResponse is not defined
+
+      321 |         .set('Authorization', `Bearer ${userBToken}`)
+      322 |         .send({ title: 'User B Task for Tagging' });
+    > 323 |       userBTaskId = createTaskBBResponse.body.id;
+          |       ^
+      324 |     });
+      325 |
+      326 |     describe('POST /api/tags/:tagId/tasks/:taskId', () => {
+
+      at Object.<anonymous> (tags.e2e-spec.ts:323:7)
+
+  ● TagsModule (e2e) › Suite Pengujian: Asosiasi Tugas-Tag (/api/tags/.../tasks/...) › DELETE /api/tags/:tagId/tasks/:taskId › [Gagal] Melepaskan asosiasi dengan ID tugas atau ID tag yang tidak valid.
+
+    ReferenceError: createTaskBBResponse is not defined
+
+      321 |         .set('Authorization', `Bearer ${userBToken}`)
+      322 |         .send({ title: 'User B Task for Tagging' });
+    > 323 |       userBTaskId = createTaskBBResponse.body.id;
+          |       ^
+      324 |     });
+      325 |
+      326 |     describe('POST /api/tags/:tagId/tasks/:taskId', () => {
+
+      at Object.<anonymous> (tags.e2e-spec.ts:323:7)
+
+  ● TagsModule (e2e) › Suite Pengujian: Asosiasi Tugas-Tag (/api/tags/.../tasks/...) › DELETE /api/tags/:tagId/tasks/:taskId › [Gagal] Melepaskan asosiasi tanpa token autentikasi.
+
+    ReferenceError: createTaskBBResponse is not defined
+
+      321 |         .set('Authorization', `Bearer ${userBToken}`)
+      322 |         .send({ title: 'User B Task for Tagging' });
+    > 323 |       userBTaskId = createTaskBBResponse.body.id;
+          |       ^
+      324 |     });
+      325 |
+      326 |     describe('POST /api/tags/:tagId/tasks/:taskId', () => {
+
+      at Object.<anonymous> (tags.e2e-spec.ts:323:7)
+
+Test Suites: 4 failed, 1 passed, 5 total
+Tests:       36 failed, 18 passed, 54 total
+Snapshots:   0 total
+Time:        39.044 s
+Ran all test suites.

@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -12,12 +13,21 @@ export class TagsService {
   constructor(private prisma: PrismaService) {}
 
   async create(userId: string, createTagDto: CreateTagDto) {
-    return this.prisma.tag.create({
-      data: {
-        ...createTagDto,
-        userId,
-      },
-    });
+    try {
+      return this.prisma.tag.create({
+        data: {
+          ...createTagDto,
+          userId,
+        },
+      });
+    } catch (error) {
+      if (error.code === 'P2002') {
+        throw new ConflictException(
+          'Tag with this name already exists for this user',
+        );
+      }
+      throw error;
+    }
   }
 
   async findAll(userId: string) {
@@ -28,7 +38,7 @@ export class TagsService {
     const tag = await this.prisma.tag.findUnique({ where: { id } });
 
     if (!tag) {
-      throw new NotFoundException(`Tag with ID ${id} not found`);
+      throw new NotFoundException(`Tag not found`);
     }
 
     if (tag.userId !== userId) {

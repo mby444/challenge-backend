@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
@@ -17,6 +17,7 @@ describe('AuthModule (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
     await app.init();
     prismaService = app.get(PrismaService);
     await cleanDb(prismaService);
@@ -60,13 +61,18 @@ describe('AuthModule (e2e)', () => {
         name: 'Invalid User',
         birth: new Date('2000-01-01'),
       };
-      const response = await registerUser(app, invalidUserDto as RegisterUserDto);
+      const response = await registerUser(
+        app,
+        invalidUserDto as RegisterUserDto,
+      );
 
       expect(response.status).toBe(400);
-      expect(response.body.message).toEqual(expect.arrayContaining([
-        'email must be an email',
-        'password must be longer than or equal to 6 characters',
-      ]));
+      expect(response.body.message).toEqual(
+        expect.arrayContaining([
+          'email must be an email',
+          'password must be longer than or equal to 6 characters',
+        ]),
+      );
     });
   });
 
