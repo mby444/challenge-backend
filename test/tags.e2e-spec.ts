@@ -331,7 +331,7 @@ describe('TagsModule (e2e)', () => {
         .post('/api/tasks')
         .set('Authorization', `Bearer ${userBToken}`)
         .send({ title: 'User B Task for Tagging' });
-      userBTaskId = createTaskBBResponse.body.id;
+      userBTaskId = createTaskBResponse.body.id;
     });
 
     describe('POST /api/tags/:tagId/tasks/:taskId', () => {

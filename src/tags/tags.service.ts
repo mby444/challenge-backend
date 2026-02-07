@@ -56,7 +56,7 @@ export class TagsService {
     });
 
     if (!tag) {
-      throw new NotFoundException(`Tag with ID ${id} not found`);
+      throw new NotFoundException(`Tag not found`);
     }
 
     if (tag.userId !== userId) {
@@ -65,10 +65,19 @@ export class TagsService {
       );
     }
 
-    return this.prisma.tag.update({
-      where: { id },
-      data: updateTagDto,
-    });
+    try {
+      return this.prisma.tag.update({
+        where: { id },
+        data: updateTagDto,
+      });
+    } catch (error) {
+      if (error.code === 'P2002') {
+        throw new ConflictException(
+          'Tag with this name already exists for this user',
+        );
+      }
+      throw error;
+    }
   }
 
   async remove(userId: string, id: string) {
@@ -77,7 +86,7 @@ export class TagsService {
     });
 
     if (!tag) {
-      throw new NotFoundException(`Tag with ID ${id} not found`);
+      throw new NotFoundException(`Tag not found`);
     }
 
     if (tag.userId !== userId) {
@@ -93,16 +102,70 @@ export class TagsService {
   }
 
   async attachToTask(userId: string, tagId: string, taskId: string) {
-    return this.prisma.task.update({
-      where: { id: taskId, userId },
-      data: { tags: { connect: [{ id: tagId }] } },
+    // Ketika task tidak ketemu -> error
+    // Ketika task ketemu namun tag milik orang lain -> bisa disambung, seharusnya tidak
+    const tag = await this.prisma.tag.findUnique({
+      where: { id: tagId },
+    });
+
+    if (!tag) {
+      throw new NotFoundException('Tag not found');
+    }
+
+    if (tag.userId !== userId) {
+      throw new UnauthorizedException(
+        `You are not authorized to connect tag with ID ${tagId}`,
+      );
+    }
+
+    const task = await this.prisma.task.findUnique({ where: { id: taskId } });
+
+    if (!task) {
+      throw new NotFoundException('Task not found');
+    }
+
+    if (task.userId !== userId) {
+      throw new UnauthorizedException(
+        `You are not authorized to connect task with ID ${taskId}`,
+      );
+    }
+
+    return this.prisma.tag.update({
+      where: { id: tagId, userId },
+      data: { tasks: { connect: [{ id: taskId }] } },
     });
   }
 
   async detachFromTask(userId: string, tagId: string, taskId: string) {
-    return this.prisma.task.update({
-      where: { id: taskId, userId },
-      data: { tags: { disconnect: [{ id: tagId }] } },
+    const tag = await this.prisma.tag.findUnique({
+      where: { id: tagId },
+    });
+
+    if (!tag) {
+      throw new NotFoundException('Tag not found');
+    }
+
+    if (tag.userId !== userId) {
+      throw new UnauthorizedException(
+        `You are not authorized to disconnect tag with ID ${tagId}`,
+      );
+    }
+
+    const task = await this.prisma.task.findUnique({ where: { id: taskId } });
+
+    if (!task) {
+      throw new NotFoundException('Task not found');
+    }
+
+    if (task.userId !== userId) {
+      throw new UnauthorizedException(
+        `You are not authorized to disconnect task with ID ${taskId}`,
+      );
+    }
+
+    return this.prisma.tag.update({
+      where: { id: tagId, userId },
+      data: { tasks: { disconnect: [{ id: taskId }] } },
     });
   }
 }
