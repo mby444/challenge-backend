@@ -14,13 +14,15 @@ export class TagsService {
 
   async create(userId: string, createTagDto: CreateTagDto) {
     try {
-      return this.prisma.tag.create({
+      const tag = await this.prisma.tag.create({
         data: {
           ...createTagDto,
           userId,
         },
       });
+      return tag;
     } catch (error) {
+      console.log('log tag duplicate error', error);
       if (error.code === 'P2002') {
         throw new ConflictException(
           'Tag with this name already exists for this user',

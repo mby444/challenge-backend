@@ -47,8 +47,26 @@ describe('AuthModule (e2e)', () => {
 
     it('[Gagal] Mendaftar dengan email yang sudah ada.', async () => {
       await registerUser(app, registerUserDto); // First registration
+      // console.log(
+      //   'log response 1',
+      //   'status',
+      //   response1.status,
+      //   'headers',
+      //   response1.headers,
+      //   'body',
+      //   response1.body,
+      // );
 
       const response = await registerUser(app, registerUserDto); // Second registration with same email
+      // console.log(
+      //   'log response 1',
+      //   'status',
+      //   response.status,
+      //   'headers',
+      //   response.headers,
+      //   'body',
+      //   response.body,
+      // );
 
       expect(response.status).toBe(409);
       expect(response.body.message).toBe('Email already exists');
