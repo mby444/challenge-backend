@@ -3,11 +3,11 @@
 ## Tantangan Backend TypeScript
 
 1. Buatlah aplikasi REST API sederhana dengan NestJS TypeScript dengan kriteria sebagai berikut:
-   a. (in progress) Terdiri dari minimal 2 operasi CRUD yang saling berkaitan. (Pengguna & Tugas)
+   a. (done) Terdiri dari minimal 2 operasi CRUD yang saling berkaitan. (Pengguna, Tugas, Tag)
    b. (done) Menyimpan data menggunakan database SQL (PostgreSQL, Prisma ORM)
    c. (done) Autentikasi API menggunakan token JWT.
-   d. Buatkan fitur pengujian E2E untuk menguji token API-nya.
-   e. Pilih pola proyek yang sering Anda gunakan. (Struktur berbasis modul)
+   d. (in progress) Buatkan fitur pengujian E2E untuk menguji token API-nya.
+   e. (done) Pilih pola proyek yang sering Anda gunakan. (Struktur berbasis modul)
    f. Jelaskan mengapa menggunakan pola tersebut di README GitHub.
    g. Untuk dokumentasi API bisa pakai Postman atau sejenisnya.
 

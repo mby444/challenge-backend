@@ -1,11 +1,10 @@
-import { IsOptional, IsString, IsEmail } from 'class-validator';
+import { IsOptional, IsDateString } from 'class-validator';
 
 export class UpdateUserDto {
   @IsOptional()
-  @IsEmail()
-  email?: string;
+  name?: string;
 
   @IsOptional()
-  @IsString()
-  password?: string; // In a real app, this would be handled through a dedicated password change flow
+  @IsDateString()
+  birth?: Date;
 }

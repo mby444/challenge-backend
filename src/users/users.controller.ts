@@ -1,14 +1,39 @@
-import { Controller, Get, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  UseGuards,
+  Req,
+  Patch,
+  Delete,
+  HttpCode,
+  HttpStatus,
+  Body,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard'; // Assuming we'll create this guard
+import { UpdateUserDto } from './dto/update-user.dto';
 
+@UseGuards(JwtAuthGuard)
 @Controller('api/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get('me')
-  getProfile(@Req() req) {
-    return req.user; // User object is attached to the request by JwtAuthGuard
+  @HttpCode(HttpStatus.OK)
+  get(@Req() req) {
+    const { password, ...user } = req.user;
+    return user;
+  }
+
+  @Patch('me')
+  @HttpCode(HttpStatus.OK)
+  async update(@Req() req, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(req.user.id, updateUserDto);
+  }
+
+  @Delete('me')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async remove(@Req() req) {
+    return this.usersService.remove(req.user.id);
   }
 }

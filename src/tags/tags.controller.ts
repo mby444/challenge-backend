@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -20,21 +22,25 @@ export class TagsController {
   constructor(private readonly tagsService: TagsService) {}
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   async create(@Req() req, @Body() createTagDto: CreateTagDto) {
     return this.tagsService.create(req.user.id, createTagDto);
   }
 
   @Get()
+  @HttpCode(HttpStatus.OK)
   async findAll(@Req() req) {
     return this.tagsService.findAll(req.user.id);
   }
 
   @Get('/:id')
+  @HttpCode(HttpStatus.OK)
   async findOne(@Req() req, @Param('id') id: string) {
     return this.tagsService.findOne(req.user.id, id);
   }
 
   @Patch('/:id')
+  @HttpCode(HttpStatus.OK)
   async update(
     @Req() req,
     @Param('id') id: string,
@@ -44,11 +50,13 @@ export class TagsController {
   }
 
   @Delete('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Req() req, @Param('id') id: string) {
     return this.tagsService.remove(req.user.id, id);
   }
 
   @Post('/:tagId/tasks/:taskId')
+  @HttpCode(HttpStatus.CREATED)
   async attachToTask(
     @Req() req,
     @Param('tagId') tagId: string,
@@ -58,6 +66,7 @@ export class TagsController {
   }
 
   @Delete('/:tagId/tasks/:taskId')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async detachFromTask(
     @Req() req,
     @Param('tagId') tagId: string,
