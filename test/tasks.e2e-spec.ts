@@ -138,8 +138,6 @@ describe('TasksModule (e2e)', () => {
         .get('/api/tasks')
         .set('Authorization', `Bearer ${userAToken}`);
 
-      console.log('log tasks body', response.body);
-
       expect(response.status).toBe(HttpStatus.OK);
       expect(response.body).toBeInstanceOf(Array);
       expect(response.body.length).toBe(2);

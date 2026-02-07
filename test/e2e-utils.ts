@@ -7,10 +7,9 @@ import { CreateTaskDto } from '../src/tasks/dto/create-task.dto';
 
 export async function cleanDb(prisma: PrismaService) {
   // Delete data in a specific order to avoid foreign key constraints issues
-  const _1 = await prisma.task.deleteMany();
-  const _2 = await prisma.tag.deleteMany();
-  const _3 = await prisma.user.deleteMany();
-  return [_1, _2, _3];
+  await prisma.task.deleteMany();
+  await prisma.tag.deleteMany();
+  await prisma.user.deleteMany();
 }
 
 export async function registerUser(

@@ -22,7 +22,6 @@ export class TagsService {
       });
       return tag;
     } catch (error) {
-      console.log('log tag duplicate error', error);
       if (error.code === 'P2002') {
         throw new ConflictException(
           'Tag with this name already exists for this user',
