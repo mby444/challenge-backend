@@ -7,28 +7,35 @@ import { CreateTaskDto } from '../src/tasks/dto/create-task.dto';
 
 export async function cleanDb(prisma: PrismaService) {
   // Delete data in a specific order to avoid foreign key constraints issues
-  await prisma.task.deleteMany();
-  await prisma.tag.deleteMany();
-  await prisma.user.deleteMany();
+  const _1 = await prisma.task.deleteMany();
+  const _2 = await prisma.tag.deleteMany();
+  const _3 = await prisma.user.deleteMany();
+  return [_1, _2, _3];
 }
 
-export async function registerUser(app: INestApplication, userData: RegisterUserDto) {
-  return request(app.getHttpServer())
-    .post('/api/auth/register')
-    .send(userData);
+export async function registerUser(
+  app: INestApplication,
+  userData: RegisterUserDto,
+) {
+  return request(app.getHttpServer()).post('/api/auth/register').send(userData);
 }
 
-export async function loginUser(app: INestApplication, credentials: LoginUserDto) {
-  return request(app.getHttpServer())
-    .post('/api/auth/login')
-    .send(credentials);
+export async function loginUser(
+  app: INestApplication,
+  credentials: LoginUserDto,
+) {
+  return request(app.getHttpServer()).post('/api/auth/login').send(credentials);
 }
 
 export function getAccessToken(response: request.Response): string {
   return response.body.access_token;
 }
 
-export async function createTask(app: INestApplication, taskData: CreateTaskDto, userToken: string) {
+export async function createTask(
+  app: INestApplication,
+  taskData: CreateTaskDto,
+  userToken: string,
+) {
   return request(app.getHttpServer())
     .post('/api/tasks')
     .set('Authorization', `Bearer ${userToken}`)

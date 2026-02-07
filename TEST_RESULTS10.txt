@@ -1,0 +1,824 @@
+Prisma schema loaded from prisma\schema.prisma.
+Datasource "db": SQLite database "data.db" at "file:./prisma/data.db"
+
+√ Are you sure you want to reset your database? All data will be lost. ... yes
+
+Applying migration `20260207071242_init`
+
+Database reset successful
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20260207071242_init/
+    └─ migration.sql
+
+
+E:\node-project\challenge-backend>t
+
+E:\node-project\challenge-backend>npm run test:e2e
+
+> challenge-backend@0.0.1 test:e2e
+> jest --config ./test/jest-e2e.json
+
+ FAIL  test/users.e2e-spec.ts (8.179 s)   
+  ● UsersModule (e2e) › PATCH /api/users/me › [Sukses] Memperbarui nama dan tanggal lahir dengan data yang valid.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+      79 |         .send(updateUserDto);
+      80 |
+    > 81 |       expect(response.status).toBe(HttpStatus.OK);
+         |                               ^
+      82 |       expect(response.body).toBeDefined();
+      83 |       expect(response.body.name).toBe(updateUserDto.name);
+      84 |       expect(new Date(response.body.birth).toISOString()).toBe(
+
+      at Object.<anonymous> (users.e2e-spec.ts:81:31)
+
+  ● UsersModule (e2e) › PATCH /api/users/me › [Gagal] Memperbarui dengan data yang tidak valid (misalnya, nama bukan string).
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 401
+
+      105 |         .send(invalidUpdateUserDto);
+      106 |
+    > 107 |       expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+          |                               ^
+      108 |       expect(response.body.message).toEqual(
+      109 |         expect.arrayContaining(['name must be a string']),
+      110 |       );
+
+      at Object.<anonymous> (users.e2e-spec.ts:107:31)
+
+  ● UsersModule (e2e) › DELETE /api/users/me › [Sukses] Menghapus akun sendiri dengan token yang valid.  
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 204
+    Received: 401
+
+      118 |         .set('Authorization', `Bearer ${accessToken}`);
+      119 |
+    > 120 |       expect(deleteResponse.status).toBe(HttpStatus.NO_CONTENT);
+          |                                     ^
+      121 |
+      122 |       // Verify user is deleted by trying to log in
+      123 |       const loginAttemptAfterDelete = await loginUser(app, {
+
+      at Object.<anonymous> (users.e2e-spec.ts:120:37)
+
+ FAIL  test/auth.e2e-spec.ts
+  ● AuthModule (e2e) › POST /api/auth/register › [Gagal] Mendaftar dengan email yang sudah ada.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 409
+    Received: 201
+
+      69 |       // );
+      70 |
+    > 71 |       expect(response.status).toBe(409);
+         |                               ^
+      72 |       expect(response.body.message).toBe('Email already exists');
+      73 |     });
+      74 |
+
+      at Object.<anonymous> (auth.e2e-spec.ts:71:31)
+
+[Nest] 8312  - 02/07/2026, 10:52:11 PM   ERROR [ExceptionsHandler] PrismaClientKnownRequestError:        
+Invalid `this.prisma.task.create()` invocation in
+E:\node-project\challenge-backend\src\tasks\tasks.service.ts:15:29
+
+  12 constructor(private prisma: PrismaService) {}
+  13
+  14 async create(userId: string, createTaskDto: CreateTaskDto) {
+→ 15   return this.prisma.task.create(
+Foreign key constraint violated on the foreign key
+    at Vr.handleRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:228:13)
+    at Vr.handleAndLogRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:174:12)
+    at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {
+  code: 'P2003',
+  meta: {
+    modelName: 'Task',
+    driverAdapterError: DriverAdapterError: ForeignKeyConstraintViolation
+        at PrismaBetterSqlite3Adapter.onError (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:568:11)
+        at PrismaBetterSqlite3Adapter.performIO (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:563:12)
+        at PrismaBetterSqlite3Adapter.queryRaw (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:504:63)
+        at E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:184:16
+        at callback (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\tracing.ts:80:12)
+        at e.withQuerySpanAndEvent (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:363:12)
+        at e.#withQuerySpanAndEvent [as interpretNode] (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:182:37)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:209:52)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:127:21)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:268:41)
+        at e.run (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:93:23)
+        at execute (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\LocalExecutor.ts:81:12)
+        at Dt.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\ClientEngine.ts:461:22)
+        at Object.singleLoader (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:112:26)
+        at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:140:14)
+        at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+        at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+        at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {     
+      cause: {
+        originalCode: 'SQLITE_CONSTRAINT_FOREIGNKEY',
+        originalMessage: 'FOREIGN KEY constraint failed',
+        kind: 'ForeignKeyConstraintViolation',
+        constraint: {
+          foreignKey: {}
+        }
+      }
+    }
+  },
+  clientVersion: '7.3.0'
+}
+ PASS  test/app.e2e-spec.ts
+[Nest] 10504  - 02/07/2026, 10:52:13 PM   ERROR [ExceptionsHandler] PrismaClientKnownRequestError:       
+Invalid `this.prisma.tag.update()` invocation in
+E:\node-project\challenge-backend\src\tags\tags.service.ts:71:30
+
+  68 }
+  69
+  70 try {
+→ 71   return this.prisma.tag.update(
+Unique constraint failed on the fields: (`userId`, `name`)
+    at Vr.handleRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:228:13)
+    at Vr.handleAndLogRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:174:12)
+    at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {
+  code: 'P2002',
+  meta: {
+    modelName: 'Tag',
+    driverAdapterError: DriverAdapterError: UniqueConstraintViolation
+        at PrismaBetterSqlite3Adapter.onError (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:568:11)
+        at PrismaBetterSqlite3Adapter.performIO (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:563:12)
+        at PrismaBetterSqlite3Adapter.queryRaw (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:504:63)
+        at E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:184:16
+        at callback (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\tracing.ts:80:12)
+        at e.withQuerySpanAndEvent (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:363:12)
+        at e.#withQuerySpanAndEvent [as interpretNode] (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:182:37)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:209:52)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:124:40)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:268:52)
+        at e.run (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:93:34)
+        at execute (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\LocalExecutor.ts:81:36)
+        at Dt.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\ClientEngine.ts:461:37)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at Object.singleLoader (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:112:26)
+        at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:140:14)
+        at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+        at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+        at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {     
+      cause: {
+        originalCode: 'SQLITE_CONSTRAINT_UNIQUE',
+        originalMessage: 'UNIQUE constraint failed: Tag.userId, Tag.name',
+        kind: 'UniqueConstraintViolation',
+        constraint: {
+          fields: [
+            'userId',
+            'name'
+          ]
+        }
+      }
+    }
+  },
+  clientVersion: '7.3.0'
+}
+ FAIL  test/tasks.e2e-spec.ts (15.141 s)
+  ● TasksModule (e2e) › POST /api/tasks › [Sukses] Pengguna A membuat tugas baru dengan data yang valid. 
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      53 |       where: { email: userARegisterDto.email },
+      54 |     });
+    > 55 |     userAId = userA.id;
+         |                     ^
+      56 |
+      57 |     // Register and login User B
+      58 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:55:21)
+
+  ● TasksModule (e2e) › POST /api/tasks › [Gagal] Membuat tugas dengan data yang tidak valid (misalnya, judul kosong).
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      53 |       where: { email: userARegisterDto.email },
+      54 |     });
+    > 55 |     userAId = userA.id;
+         |                     ^
+      56 |
+      57 |     // Register and login User B
+      58 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:55:21)
+
+  ● TasksModule (e2e) › POST /api/tasks › [Gagal] Membuat tugas tanpa token autentikasi.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      53 |       where: { email: userARegisterDto.email },
+      54 |     });
+    > 55 |     userAId = userA.id;
+         |                     ^
+      56 |
+      57 |     // Register and login User B
+      58 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:55:21)
+
+  ● TasksModule (e2e) › GET /api/tasks › [Sukses] Pengguna A mengambil daftar tugasnya.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      53 |       where: { email: userARegisterDto.email },
+      54 |     });
+    > 55 |     userAId = userA.id;
+         |                     ^
+      56 |
+      57 |     // Register and login User B
+      58 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:55:21)
+
+  ● TasksModule (e2e) › GET /api/tasks › [Sukses] Pengguna yang belum punya tugas mengambil daftar tugasnya.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      53 |       where: { email: userARegisterDto.email },
+      54 |     });
+    > 55 |     userAId = userA.id;
+         |                     ^
+      56 |
+      57 |     // Register and login User B
+      58 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:55:21)
+
+  ● TasksModule (e2e) › GET /api/tasks › [Gagal] Mengambil daftar tugas tanpa token autentikasi.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      53 |       where: { email: userARegisterDto.email },
+      54 |     });
+    > 55 |     userAId = userA.id;
+         |                     ^
+      56 |
+      57 |     // Register and login User B
+      58 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:55:21)
+
+  ● TasksModule (e2e) › GET /api/tasks/:id › [Sukses] Pengguna A mengambil detail tugas miliknya.        
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      65 |       where: { email: userBRegisterDto.email },
+      66 |     });
+    > 67 |     userBId = userB.id;
+         |                     ^
+      68 |   });
+      69 |
+      70 |   afterAll(async () => {
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:67:21)
+
+  ● TasksModule (e2e) › GET /api/tasks/:id › [Gagal] Mengambil detail tugas tanpa token autentikasi.     
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      53 |       where: { email: userARegisterDto.email },
+      54 |     });
+    > 55 |     userAId = userA.id;
+         |                     ^
+      56 |
+      57 |     // Register and login User B
+      58 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:55:21)
+
+  ● TasksModule (e2e) › PATCH /api/tasks/:id › [Sukses] Pengguna A memperbarui tugas miliknya.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      65 |       where: { email: userBRegisterDto.email },
+      66 |     });
+    > 67 |     userBId = userB.id;
+         |                     ^
+      68 |   });
+      69 |
+      70 |   afterAll(async () => {
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:67:21)
+
+  ● TasksModule (e2e) › PATCH /api/tasks/:id › [Gagal] Pengguna B mencoba memperbarui tugas milik Pengguna A.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      53 |       where: { email: userARegisterDto.email },
+      54 |     });
+    > 55 |     userAId = userA.id;
+         |                     ^
+      56 |
+      57 |     // Register and login User B
+      58 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:55:21)
+
+  ● TasksModule (e2e) › PATCH /api/tasks/:id › [Gagal] Pengguna A memperbarui tugas yang tidak ada (ID salah).
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 404
+    Received: 401
+
+      290 |         .send(updateTaskDto);
+      291 |
+    > 292 |       expect(response.status).toBe(HttpStatus.NOT_FOUND);
+          |                               ^
+      293 |       expect(response.body.message).toBe('Task not found');
+      294 |     });
+      295 |
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:292:31)
+
+  ● TasksModule (e2e) › DELETE /api/tasks/:id › [Sukses] Pengguna A menghapus tugas miliknya.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      65 |       where: { email: userBRegisterDto.email },
+      66 |     });
+    > 67 |     userBId = userB.id;
+         |                     ^
+      68 |   });
+      69 |
+      70 |   afterAll(async () => {
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:67:21)
+
+ FAIL  test/tags.e2e-spec.ts (20.581 s)      
+  ● Console
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)  
+
+    console.log
+      A2. log userA null
+
+      at Object.<anonymous> (tags.e2e-spec.ts:60:15)
+
+    console.log
+      A3. log registerAResponse.body 201 {
+        id: '8f615647-5f99-4783-b596-dbf9c1ba9a98',
+        email: 'userA@example.com',
+        name: 'User A',
+        birth: '1990-01-01T00:00:00.000Z',
+        createdAt: '2026-02-07T15:52:04.955Z',
+        updatedAt: '2026-02-07T15:52:04.955Z'
+      }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:61:15)
+
+    console.log
+      A4. log loginAResponse.body 200 {
+        access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJBQGV4YW1wbGUuY29tIiwic3ViIjoiOGY2MTU2NDctNWY5OS00NzgzLWI1OTYtZGJmOWMxYmE5YTk4IiwiaWF0IjoxNzcwNDc5NTI1LCJleHAiOjE3NzA0ODMxMjV9.puaNBnxNMBrwdmQSA7BcLz7XqPe-gggqQPlh4Eas5nw'
+      }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:66:15)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      A2. log userA null
+
+      at Object.<anonymous> (tags.e2e-spec.ts:60:15)
+
+    console.log
+      A3. log registerAResponse.body 409 { message: 'Email already exists', error: 'Conflict', statusCode: 409 }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:61:15)
+
+    console.log
+      A4. log loginAResponse.body 401 {
+        message: 'Invalid credentials',
+        error: 'Unauthorized',
+        statusCode: 401
+      }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:66:15)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      B2. log userB null
+
+      at Object.<anonymous> (tags.e2e-spec.ts:88:15)
+
+    console.log
+      B3. log registerBResponse.body 201 {
+        id: '1d6f446d-e43e-49c7-86da-11696ea51b0b',
+        email: 'userB@example.com',
+        name: 'User B',
+        birth: '1995-05-05T00:00:00.000Z',
+        createdAt: '2026-02-07T15:52:06.211Z',
+        updatedAt: '2026-02-07T15:52:06.211Z'
+      }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:89:15)
+
+    console.log
+      B4. log loginBResponse.body 200 {
+        access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJCQGV4YW1wbGUuY29tIiwic3ViIjoiMWQ2ZjQ0NmQtZTQzZS00OWM3LTg2ZGEtMTE2OTZlYTUxYjBiIiwiaWF0IjoxNzcwNDc5NTI2LCJleHAiOjE3NzA0ODMxMjZ9.tRCXrgl_1Jz14uL4tuULzx4pxd3XJtZPpZJzpVjyIU0'
+      }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:94:15)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      A2. log userA null
+
+      at Object.<anonymous> (tags.e2e-spec.ts:60:15)
+
+    console.log
+      A3. log registerAResponse.body 409 { message: 'Email already exists', error: 'Conflict', statusCode: 409 }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:61:15)
+
+    console.log
+      A4. log loginAResponse.body 200 {
+        access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJBQGV4YW1wbGUuY29tIiwic3ViIjoiN2FiNWIzYmItMDFhYy00MTMyLWI0ZDItZWVjNDFiOGU5OGRlIiwiaWF0IjoxNzcwNDc5NTI5LCJleHAiOjE3NzA0ODMxMjl9.99nYsQMBNjcQWTrv3af4pgZusSt_qvVC6yGc-hQD12U'
+      }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:66:15)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      A2. log userA null
+
+      at Object.<anonymous> (tags.e2e-spec.ts:60:15)
+
+    console.log
+      A3. log registerAResponse.body 201 {
+        id: 'fab99659-27be-4866-bd7c-91221ea661c9',
+        email: 'userA@example.com',
+        name: 'User A',
+        birth: '1990-01-01T00:00:00.000Z',
+        createdAt: '2026-02-07T15:52:09.486Z',
+        updatedAt: '2026-02-07T15:52:09.486Z'
+      }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:61:15)
+
+    console.log
+      A4. log loginAResponse.body 200 {
+        access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJBQGV4YW1wbGUuY29tIiwic3ViIjoiZmFiOTk2NTktMjdiZS00ODY2LWJkN2MtOTEyMjFlYTY2MWM5IiwiaWF0IjoxNzcwNDc5NTI5LCJleHAiOjE3NzA0ODMxMjl9.Z_9XQO5niP9MON_vGMM6Bqhm-XQFKn4qthoK9EQFWm8'
+      }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:66:15)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      B2. log userB null
+
+      at Object.<anonymous> (tags.e2e-spec.ts:88:15)
+
+    console.log
+      B3. log registerBResponse.body 201 {
+        id: '739c6aaf-7678-41f8-a249-7e3ff9f45fa7',
+        email: 'userB@example.com',
+        name: 'User B',
+        birth: '1995-05-05T00:00:00.000Z',
+        createdAt: '2026-02-07T15:52:09.741Z',
+        updatedAt: '2026-02-07T15:52:09.741Z'
+      }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:89:15)
+
+    console.log
+      B4. log loginBResponse.body 200 {
+        access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJCQGV4YW1wbGUuY29tIiwic3ViIjoiNzM5YzZhYWYtNzY3OC00MWY4LWEyNDktN2UzZmY5ZjQ1ZmE3IiwiaWF0IjoxNzcwNDc5NTI5LCJleHAiOjE3NzA0ODMxMjl9.JXeR82EHKy2vCYU_UoI4WLPvY0hV7u35QTymXNu4fjI'
+      }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:94:15)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      B2. log userB null
+
+      at Object.<anonymous> (tags.e2e-spec.ts:88:15)
+
+    console.log
+      B3. log registerBResponse.body 201 {
+        id: 'dc12450f-35e3-409e-82a4-61a726c78b6c',
+        email: 'userB@example.com',
+        name: 'User B',
+        birth: '1995-05-05T00:00:00.000Z',
+        createdAt: '2026-02-07T15:52:11.845Z',
+        updatedAt: '2026-02-07T15:52:11.845Z'
+      }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:89:15)
+
+    console.log
+      B4. log loginBResponse.body 200 {
+        access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJCQGV4YW1wbGUuY29tIiwic3ViIjoiZGMxMjQ1MGYtMzVlMy00MDllLTgyYTQtNjFhNzI2Yzc4YjZjIiwiaWF0IjoxNzcwNDc5NTMyLCJleHAiOjE3NzA0ODMxMzJ9.pmGJjJOdJb4I9fg45-ypf7dsCsP2XJTPpW0e0aS9hks'
+      }
+
+      at Object.<anonymous> (tags.e2e-spec.ts:94:15)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+    console.log
+      A1. log userARegisterDto.email userA@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:52:13)
+
+    console.log
+      B1. log userBRegisterDto.email userB@example.com
+
+      at Object.<anonymous> (tags.e2e-spec.ts:80:13)
+
+  ● TagsModule (e2e) › POST /api/tags › [Sukses] Pengguna A membuat tag baru dengan data yang valid.     
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 201
+    Received: 401
+
+      112 |         .send(createTagDto);
+      113 |
+    > 114 |       expect(response.status).toBe(HttpStatus.CREATED);
+          |                               ^
+      115 |       expect(response.body).toBeDefined();
+      116 |       expect(response.body.name).toBe(createTagDto.name);
+      117 |       expect(response.body.userId).toBe(userAId);
+
+      at Object.<anonymous> (tags.e2e-spec.ts:114:31)
+
+  ● TagsModule (e2e) › POST /api/tags › [Gagal] Membuat tag dengan nama yang duplikat untuk pengguna yang sama.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 409
+    Received: 401
+
+      130 |         .send(createTagDto);
+      131 |
+    > 132 |       expect(response.status).toBe(HttpStatus.CONFLICT);
+          |                               ^
+      133 |       expect(response.body.message).toBe(
+      134 |         'Tag with this name already exists for this user',
+      135 |       );
+
+      at Object.<anonymous> (tags.e2e-spec.ts:132:31)
+
+  ● TagsModule (e2e) › GET /api/tags/:id › [Sukses] Pengguna A mengambil detail tag miliknya.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+      203 |         .set('Authorization', `Bearer ${userAToken}`);
+      204 |
+    > 205 |       expect(response.status).toBe(HttpStatus.OK);
+          |                               ^
+      206 |       expect(response.body).toBeDefined();
+      207 |       expect(response.body.id).toBe(userATagId);
+      208 |       expect(response.body.name).toBe('Important');
+
+      at Object.<anonymous> (tags.e2e-spec.ts:205:31)
+
+  ● TagsModule (e2e) › PATCH /api/tags/:id › [Gagal] Memperbarui dengan nama tag duplikat untuk pengguna 
+yang sama.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 409
+    Received: 500
+
+      288 |         .send(updateTagDto);
+      289 |
+    > 290 |       expect(response.status).toBe(HttpStatus.CONFLICT);
+          |                               ^
+      291 |       expect(response.body.message).toBe(
+      292 |         'Tag with this name already exists for this user',
+      293 |       );
+
+      at Object.<anonymous> (tags.e2e-spec.ts:290:31)
+
+Test Suites: 4 failed, 1 passed, 5 total
+Tests:       20 failed, 34 passed, 54 total
+Snapshots:   0 total
+Time:        22.604 s
+Ran all test suites.

@@ -68,10 +68,11 @@ export class TagsService {
     }
 
     try {
-      return this.prisma.tag.update({
+      const tag = await this.prisma.tag.update({
         where: { id },
         data: updateTagDto,
       });
+      return tag;
     } catch (error) {
       if (error.code === 'P2002') {
         throw new ConflictException(

@@ -1,0 +1,654 @@
+E:\node-project\challenge-backend>npm run test:e2e
+
+> challenge-backend@0.0.1 test:e2e
+> jest --config ./test/jest-e2e.json
+
+ FAIL  test/users.e2e-spec.ts (8.138 s)
+  ● UsersModule (e2e) › GET /api/users/me › [Sukses] Mengambil profil dengan token yang valid.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+      53 |         .set('Authorization', `Bearer ${accessToken}`);
+      54 |
+    > 55 |       expect(response.status).toBe(HttpStatus.OK);
+         |                               ^
+      56 |       expect(response.body).toBeDefined();
+      57 |       expect(response.body.email).toBe(registerUserDto.email);
+      58 |       expect(response.body.name).toBe(registerUserDto.name);
+
+      at Object.<anonymous> (users.e2e-spec.ts:55:31)
+
+  ● UsersModule (e2e) › PATCH /api/users/me › [Sukses] Memperbarui nama dan tanggal lahir dengan data yang valid.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+      79 |         .send(updateUserDto);
+      80 |
+    > 81 |       expect(response.status).toBe(HttpStatus.OK);
+         |                               ^
+      82 |       expect(response.body).toBeDefined();
+      83 |       expect(response.body.name).toBe(updateUserDto.name);
+      84 |       expect(new Date(response.body.birth).toISOString()).toBe(
+
+      at Object.<anonymous> (users.e2e-spec.ts:81:31)
+
+  ● UsersModule (e2e) › PATCH /api/users/me › [Gagal] Memperbarui dengan data yang tidak valid (misalnya, nama bukan string).
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 401
+
+      105 |         .send(invalidUpdateUserDto);
+      106 |
+    > 107 |       expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+          |                               ^
+      108 |       expect(response.body.message).toEqual(
+      109 |         expect.arrayContaining(['name must be a string']),
+      110 |       );
+
+      at Object.<anonymous> (users.e2e-spec.ts:107:31)
+
+[Nest] 13252  - 02/07/2026, 9:49:30 PM   ERROR [ExceptionsHandler] PrismaClientKnownRequestError:        
+Invalid `this.prisma.task.create()` invocation in
+E:\node-project\challenge-backend\src\tasks\tasks.service.ts:15:29
+
+  12 constructor(private prisma: PrismaService) {}
+  13
+  14 async create(userId: string, createTaskDto: CreateTaskDto) {
+→ 15   return this.prisma.task.create(
+Foreign key constraint violated on the foreign key
+    at Vr.handleRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:228:13)
+    at Vr.handleAndLogRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:174:12)
+    at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {
+  code: 'P2003',
+  meta: {
+    modelName: 'Task',
+    driverAdapterError: DriverAdapterError: ForeignKeyConstraintViolation
+        at PrismaBetterSqlite3Adapter.onError (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:568:11)
+        at PrismaBetterSqlite3Adapter.performIO (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:563:12)
+        at PrismaBetterSqlite3Adapter.queryRaw (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:504:63)
+        at E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:184:16
+        at callback (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\tracing.ts:80:12)
+        at e.withQuerySpanAndEvent (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:363:12)
+        at e.#withQuerySpanAndEvent [as interpretNode] (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:182:37)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:209:52)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:127:21)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:268:41)
+        at e.run (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:93:23)
+        at execute (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\LocalExecutor.ts:81:12)
+        at Dt.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\ClientEngine.ts:461:22)
+        at Object.singleLoader (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:112:26)
+        at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:140:14)
+        at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+        at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+        at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {     
+      cause: {
+        originalCode: 'SQLITE_CONSTRAINT_FOREIGNKEY',
+        originalMessage: 'FOREIGN KEY constraint failed',
+        kind: 'ForeignKeyConstraintViolation',
+        constraint: {
+          foreignKey: {}
+        }
+      }
+    }
+  },
+  clientVersion: '7.3.0'
+}
+[Nest] 6836  - 02/07/2026, 9:49:32 PM   ERROR [ExceptionsHandler] PrismaClientKnownRequestError:
+Invalid `this.prisma.tag.update()` invocation in
+E:\node-project\challenge-backend\src\tags\tags.service.ts:71:30
+
+  68 }
+  69
+  70 try {
+→ 71   return this.prisma.tag.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+    at Vr.handleRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:228:13)
+    at Vr.handleAndLogRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:174:12)
+    at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {
+  code: 'P2025',
+  meta: {
+    modelName: 'Tag',
+    operation: 'an update'
+  },
+  clientVersion: '7.3.0'
+}
+ PASS  test/auth.e2e-spec.ts
+ PASS  test/app.e2e-spec.ts
+[Nest] 13252  - 02/07/2026, 9:49:34 PM   ERROR [ExceptionsHandler] PrismaClientKnownRequestError:        
+Invalid `this.prisma.task.create()` invocation in
+E:\node-project\challenge-backend\src\tasks\tasks.service.ts:15:29
+
+  12 constructor(private prisma: PrismaService) {}
+  13
+  14 async create(userId: string, createTaskDto: CreateTaskDto) {
+→ 15   return this.prisma.task.create(
+Foreign key constraint violated on the foreign key
+    at Vr.handleRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:228:13)
+    at Vr.handleAndLogRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:174:12)
+    at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {
+  code: 'P2003',
+  meta: {
+    modelName: 'Task',
+    driverAdapterError: DriverAdapterError: ForeignKeyConstraintViolation
+        at PrismaBetterSqlite3Adapter.onError (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:568:11)
+        at PrismaBetterSqlite3Adapter.performIO (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:563:12)
+        at PrismaBetterSqlite3Adapter.queryRaw (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:504:63)
+        at E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:184:16
+        at callback (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\tracing.ts:80:12)
+        at e.withQuerySpanAndEvent (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:363:12)
+        at e.#withQuerySpanAndEvent [as interpretNode] (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:182:37)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:209:52)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:127:21)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:268:41)
+        at e.run (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:93:23)
+        at execute (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\LocalExecutor.ts:81:12)
+        at Dt.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\ClientEngine.ts:461:22)
+        at Object.singleLoader (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:112:26)
+        at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:140:14)
+        at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+        at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+        at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {     
+      cause: {
+        originalCode: 'SQLITE_CONSTRAINT_FOREIGNKEY',
+        originalMessage: 'FOREIGN KEY constraint failed',
+        kind: 'ForeignKeyConstraintViolation',
+        constraint: {
+          foreignKey: {}
+        }
+      }
+    }
+  },
+  clientVersion: '7.3.0'
+}
+[Nest] 6836  - 02/07/2026, 9:49:34 PM   ERROR [ExceptionsHandler] PrismaClientKnownRequestError:
+Invalid `this.prisma.tag.create()` invocation in
+E:\node-project\challenge-backend\src\tags\tags.service.ts:17:41
+
+  14
+  15 async create(userId: string, createTagDto: CreateTagDto) {
+  16   try {
+→ 17     const tag = await this.prisma.tag.create(
+Foreign key constraint violated on the foreign key
+    at Vr.handleRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:228:13)
+    at Vr.handleAndLogRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:174:12)
+    at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+    at TagsService.create (E:\node-project\challenge-backend\src\tags\tags.service.ts:17:19)
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {
+  code: 'P2003',
+  meta: {
+    modelName: 'Tag',
+    driverAdapterError: DriverAdapterError: ForeignKeyConstraintViolation
+        at PrismaBetterSqlite3Adapter.onError (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:568:11)
+        at PrismaBetterSqlite3Adapter.performIO (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:563:12)
+        at PrismaBetterSqlite3Adapter.queryRaw (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:504:63)
+        at E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:184:16
+        at callback (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\tracing.ts:80:12)
+        at e.withQuerySpanAndEvent (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:363:12)
+        at e.#withQuerySpanAndEvent [as interpretNode] (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:182:37)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:209:52)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:127:21)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:268:41)
+        at e.run (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:93:23)
+        at execute (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\LocalExecutor.ts:81:12)
+        at Dt.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\ClientEngine.ts:461:22)
+        at Object.singleLoader (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:112:26)
+        at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:140:14)
+        at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+        at TagsService.create (E:\node-project\challenge-backend\src\tags\tags.service.ts:17:19)
+        at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+        at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {     
+      cause: {
+        originalCode: 'SQLITE_CONSTRAINT_FOREIGNKEY',
+        originalMessage: 'FOREIGN KEY constraint failed',
+        kind: 'ForeignKeyConstraintViolation',
+        constraint: {
+          foreignKey: {}
+        }
+      }
+    }
+  },
+  clientVersion: '7.3.0'
+}
+[Nest] 13252  - 02/07/2026, 9:49:35 PM   ERROR [ExceptionsHandler] PrismaClientKnownRequestError:        
+Invalid `this.prisma.task.update()` invocation in
+E:\node-project\challenge-backend\src\tasks\tasks.service.ts:63:29
+
+  60   );
+  61 }
+  62
+→ 63 return this.prisma.task.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+    at Vr.handleRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:228:13)
+    at Vr.handleAndLogRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:174:12)
+    at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {
+  code: 'P2025',
+  meta: {
+    modelName: 'Task',
+    operation: 'an update'
+  },
+  clientVersion: '7.3.0'
+}
+[Nest] 6836  - 02/07/2026, 9:49:37 PM   ERROR [ExceptionsHandler] PrismaClientKnownRequestError:
+Invalid `this.prisma.tag.update()` invocation in
+E:\node-project\challenge-backend\src\tags\tags.service.ts:135:28
+
+  132   );
+  133 }
+  134
+→ 135 return this.prisma.tag.update(
+An operation failed because it depends on one or more records that were required but not found. No 'Tag' 
+record was found for a connect on many-to-many relation 'TaskToTag'.
+    at Vr.handleRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:228:13)
+    at Vr.handleAndLogRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:174:12)
+    at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:143:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {
+  code: 'P2025',
+  meta: {
+    modelName: 'Tag',
+    model: 'Tag',
+    relation: 'TaskToTag',
+    relationType: 'many-to-many',
+    operation: 'a connect',
+    neededFor: null
+  },
+  clientVersion: '7.3.0'
+}
+ FAIL  test/tasks.e2e-spec.ts (18.822 s)     
+  ● Console
+
+    console.log
+      log tasks body [
+        {
+          id: 'f020a7d9-a5c1-4056-bb25-1cc9a43c7df5',
+          title: 'Task A1',
+          description: null,
+          isCompleted: false,
+          userId: 'f544f971-3dd9-41b3-abb2-9c56e9286c74',
+          createdAt: '2026-02-07T14:49:29.966Z',
+          updatedAt: '2026-02-07T14:49:29.966Z'
+        },
+        {
+          id: '3108c0be-bea8-47f7-858f-01c93beae6a8',
+          title: 'Task A2',
+          description: null,
+          isCompleted: false,
+          userId: 'f544f971-3dd9-41b3-abb2-9c56e9286c74',
+          createdAt: '2026-02-07T14:49:29.993Z',
+          updatedAt: '2026-02-07T14:49:29.993Z'
+        }
+      ]
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:141:15)
+
+  ● TasksModule (e2e) › POST /api/tasks › [Sukses] Pengguna A membuat tugas baru dengan data yang valid. 
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      65 |       where: { email: userBRegisterDto.email },
+      66 |     });
+    > 67 |     userBId = userB.id;
+         |                     ^
+      68 |   });
+      69 |
+      70 |   afterAll(async () => {
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:67:21)
+
+  ● TasksModule (e2e) › POST /api/tasks › [Gagal] Membuat tugas dengan data yang tidak valid (misalnya, judul kosong).
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      65 |       where: { email: userBRegisterDto.email },
+      66 |     });
+    > 67 |     userBId = userB.id;
+         |                     ^
+      68 |   });
+      69 |
+      70 |   afterAll(async () => {
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:67:21)
+
+  ● TasksModule (e2e) › POST /api/tasks › [Gagal] Membuat tugas tanpa token autentikasi.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      65 |       where: { email: userBRegisterDto.email },
+      66 |     });
+    > 67 |     userBId = userB.id;
+         |                     ^
+      68 |   });
+      69 |
+      70 |   afterAll(async () => {
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:67:21)
+
+  ● TasksModule (e2e) › GET /api/tasks › [Gagal] Mengambil daftar tugas tanpa token autentikasi.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      53 |       where: { email: userARegisterDto.email },
+      54 |     });
+    > 55 |     userAId = userA.id;
+         |                     ^
+      56 |
+      57 |     // Register and login User B
+      58 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:55:21)
+
+  ● TasksModule (e2e) › GET /api/tasks/:id › [Sukses] Pengguna A mengambil detail tugas miliknya.        
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      65 |       where: { email: userBRegisterDto.email },
+      66 |     });
+    > 67 |     userBId = userB.id;
+         |                     ^
+      68 |   });
+      69 |
+      70 |   afterAll(async () => {
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:67:21)
+
+  ● TasksModule (e2e) › GET /api/tasks/:id › [Gagal] Pengguna A mengambil detail tugas yang tidak ada (ID salah).
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 404
+    Received: 401
+
+      216 |         .set('Authorization', `Bearer ${userAToken}`);
+      217 |
+    > 218 |       expect(response.status).toBe(HttpStatus.NOT_FOUND);
+          |                               ^
+      219 |       expect(response.body.message).toBe('Task not found');
+      220 |     });
+      221 |
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:218:31)
+
+  ● TasksModule (e2e) › PATCH /api/tasks/:id › [Sukses] Pengguna A memperbarui tugas miliknya.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 500
+
+      265 |         .send(updateTaskDto);
+      266 |
+    > 267 |       expect(response.status).toBe(HttpStatus.OK);
+          |                               ^
+      268 |       expect(response.body).toBeDefined();
+      269 |       expect(response.body.id).toBe(userATaskId);
+      270 |       expect(response.body.title).toBe(updateTaskDto.title);
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:267:31)
+
+  ● TasksModule (e2e) › PATCH /api/tasks/:id › [Gagal] Pengguna B mencoba memperbarui tugas milik Pengguna A.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 401
+    Received: 404
+
+      279 |         .send(updateTaskDto);
+      280 |
+    > 281 |       expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
+          |                               ^
+      282 |     });
+      283 |
+      284 |     it('[Gagal] Pengguna A memperbarui tugas yang tidak ada (ID salah).', async () => {      
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:281:31)
+
+  ● TasksModule (e2e) › PATCH /api/tasks/:id › [Gagal] Pengguna A memperbarui tugas yang tidak ada (ID salah).
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 404
+    Received: 401
+
+      290 |         .send(updateTaskDto);
+      291 |
+    > 292 |       expect(response.status).toBe(HttpStatus.NOT_FOUND);
+          |                               ^
+      293 |       expect(response.body.message).toBe('Task not found');
+      294 |     });
+      295 |
+
+      at Object.<anonymous> (tasks.e2e-spec.ts:292:31)
+
+ FAIL  test/tags.e2e-spec.ts (20.131 s)
+  ● Console
+
+    console.log
+      log tag duplicate error PrismaClientKnownRequestError:
+      Invalid `this.prisma.tag.create()` invocation in
+      E:\node-project\challenge-backend\src\tags\tags.service.ts:17:41
+
+        14
+        15 async create(userId: string, createTagDto: CreateTagDto) {
+        16   try {
+      → 17     const tag = await this.prisma.tag.create(
+      Foreign key constraint violated on the foreign key
+          at Vr.handleRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:228:13)
+          at Vr.handleAndLogRequestError (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:174:12)
+          at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:143:12)
+          at processTicksAndRejections (node:internal/process/task_queues:105:5)
+          at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+          at TagsService.create (E:\node-project\challenge-backend\src\tags\tags.service.ts:17:19)       
+          at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+          at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 {   
+        code: 'P2003',
+        meta: {
+          modelName: 'Tag',
+          driverAdapterError: DriverAdapterError: ForeignKeyConstraintViolation
+              at PrismaBetterSqlite3Adapter.onError (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:568:11)
+              at PrismaBetterSqlite3Adapter.performIO (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:563:12)
+              at PrismaBetterSqlite3Adapter.queryRaw (E:\node-project\challenge-backend\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:504:63)
+              at E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:184:16
+              at callback (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\tracing.ts:80:12)
+              at e.withQuerySpanAndEvent (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:363:12)
+              at e.#withQuerySpanAndEvent [as interpretNode] (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:182:37)
+              at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:209:52)
+              at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:127:21)
+              at processTicksAndRejections (node:internal/process/task_queues:105:5)
+              at e.interpretNode (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:268:41)
+              at e.run (E:\node-project\challenge-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:93:23)
+              at execute (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\LocalExecutor.ts:81:12)
+              at Dt.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\core\engines\client\ClientEngine.ts:461:22)
+              at Object.singleLoader (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:112:26)
+              at Vr.request (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:140:14)
+              at a (E:\node-project\challenge-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:805:24)
+              at TagsService.create (E:\node-project\challenge-backend\src\tags\tags.service.ts:17:19)   
+              at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+              at E:\node-project\challenge-backend\node_modules\@nestjs\core\router\router-proxy.js:9:17 
+{
+            cause: [Object]
+          }
+        },
+        clientVersion: '7.3.0'
+      }
+
+      at TagsService.create (../src/tags/tags.service.ts:25:15)
+
+  ● TagsModule (e2e) › POST /api/tags › [Sukses] Pengguna A membuat tag baru dengan data yang valid.     
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      53 |       where: { email: userARegisterDto.email },
+      54 |     });
+    > 55 |     userAId = userA.id;
+         |                     ^
+      56 |
+      57 |     // Register and login User B
+      58 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tags.e2e-spec.ts:55:21)
+
+  ● TagsModule (e2e) › POST /api/tags › [Gagal] Membuat tag dengan nama yang duplikat untuk pengguna yang sama.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      53 |       where: { email: userARegisterDto.email },
+      54 |     });
+    > 55 |     userAId = userA.id;
+         |                     ^
+      56 |
+      57 |     // Register and login User B
+      58 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tags.e2e-spec.ts:55:21)
+
+  ● TagsModule (e2e) › GET /api/tags › [Sukses] Pengguna A mengambil daftar tag-nya.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+      137 |         .set('Authorization', `Bearer ${userAToken}`);
+      138 |
+    > 139 |       expect(response.status).toBe(HttpStatus.OK);
+          |                               ^
+      140 |       expect(response.body).toBeInstanceOf(Array);
+      141 |       expect(response.body.length).toBe(2);
+      142 |       expect(response.body.map((tag) => tag.name)).toEqual(
+
+      at Object.<anonymous> (tags.e2e-spec.ts:139:31)
+
+  ● TagsModule (e2e) › GET /api/tags › [Gagal] Mengambil daftar tag tanpa token autentikasi.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      53 |       where: { email: userARegisterDto.email },
+      54 |     });
+    > 55 |     userAId = userA.id;
+         |                     ^
+      56 |
+      57 |     // Register and login User B
+      58 |     await registerUser(app, userBRegisterDto);
+
+      at Object.<anonymous> (tags.e2e-spec.ts:55:21)
+
+  ● TagsModule (e2e) › GET /api/tags/:id › [Gagal] Mengambil detail tag yang tidak ada.
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+      65 |       where: { email: userBRegisterDto.email },
+      66 |     });
+    > 67 |     userBId = userB.id;
+         |                     ^
+      68 |   });
+      69 |
+      70 |   afterAll(async () => {
+
+      at Object.<anonymous> (tags.e2e-spec.ts:67:21)
+
+  ● TagsModule (e2e) › PATCH /api/tags/:id › [Sukses] Pengguna A memperbarui tag miliknya.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 500
+
+      215 |         .send(updateTagDto);
+      216 |
+    > 217 |       expect(response.status).toBe(HttpStatus.OK);
+          |                               ^
+      218 |       expect(response.body).toBeDefined();
+      219 |       expect(response.body.id).toBe(userATagId);
+      220 |       expect(response.body.name).toBe(updateTagDto.name);
+
+      at Object.<anonymous> (tags.e2e-spec.ts:217:31)
+
+  ● TagsModule (e2e) › PATCH /api/tags/:id › [Gagal] Memperbarui dengan nama tag duplikat untuk pengguna 
+yang sama.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 409
+    Received: 401
+
+      256 |         .send(updateTagDto);
+      257 |
+    > 258 |       expect(response.status).toBe(HttpStatus.CONFLICT);
+          |                               ^
+      259 |       expect(response.body.message).toBe(
+      260 |         'Tag with this name already exists for this user',
+      261 |       );
+
+      at Object.<anonymous> (tags.e2e-spec.ts:258:31)
+
+  ● TagsModule (e2e) › Suite Pengujian: Asosiasi Tugas-Tag (/api/tags/.../tasks/...) › POST /api/tags/:tagId/tasks/:taskId › [Sukses] Mengaitkan tag milik Pengguna A dengan tugas milik Pengguna A.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 201
+    Received: 500
+
+      341 |           .set('Authorization', `Bearer ${userAToken}`);
+      342 |
+    > 343 |         expect(response.status).toBe(HttpStatus.CREATED);
+          |                                 ^
+      344 |
+      345 |         // Verify association by fetching the task and checking its tags
+      346 |         const taskResponse = await request(app.getHttpServer())
+
+      at Object.<anonymous> (tags.e2e-spec.ts:343:33)
+
+  ● TagsModule (e2e) › Suite Pengujian: Asosiasi Tugas-Tag (/api/tags/.../tasks/...) › POST /api/tags/:tagId/tasks/:taskId › [Gagal] Mengaitkan dengan ID tugas atau ID tag yang tidak valid.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 404
+    Received: 401
+
+      362 |           .post(`/api/tags/${nonExistentId}/tasks/${userATaskId}`)
+      363 |           .set('Authorization', `Bearer ${userAToken}`);
+    > 364 |         expect(response.status).toBe(HttpStatus.NOT_FOUND);
+          |                                 ^
+      365 |         expect(response.body.message).toBe('Tag not found');
+      366 |
+      367 |         // Invalid Task ID
+
+      at Object.<anonymous> (tags.e2e-spec.ts:364:33)
+
+Test Suites: 3 failed, 2 passed, 5 total
+Tests:       21 failed, 33 passed, 54 total
+Snapshots:   0 total
+Time:        21.911 s
+Ran all test suites.

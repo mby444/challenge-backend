@@ -40,31 +40,63 @@ describe('TagsModule (e2e)', () => {
     app.useGlobalPipes(new ValidationPipe());
     await app.init();
     prismaService = app.get(PrismaService);
-    await cleanDb(prismaService);
+    const cleaned = await cleanDb(prismaService);
 
     // Register and login User A
-    await registerUser(app, userARegisterDto);
+    const registerAResponse = await registerUser(app, userARegisterDto);
     const loginAResponse = await loginUser(app, {
       email: userARegisterDto.email,
       password: userARegisterDto.password,
     });
     userAToken = getAccessToken(loginAResponse);
+    console.log('A1. log userARegisterDto.email', userARegisterDto.email);
     const userA = await prismaService.user.findUnique({
       where: { email: userARegisterDto.email },
     });
-    userAId = userA.id;
+    // console.log('log userA', userA);
+    try {
+      userAId = userA.id;
+    } catch (error) {
+      console.log('A2. log userA', userA);
+      console.log(
+        'A3. log registerAResponse.body',
+        registerAResponse.status,
+        registerAResponse.body,
+      );
+      console.log(
+        'A4. log loginAResponse.body',
+        loginAResponse.status,
+        loginAResponse.body,
+      );
+    }
 
     // Register and login User B
-    await registerUser(app, userBRegisterDto);
+    const registerBResponse = await registerUser(app, userBRegisterDto);
     const loginBResponse = await loginUser(app, {
       email: userBRegisterDto.email,
       password: userBRegisterDto.password,
     });
     userBToken = getAccessToken(loginBResponse);
+    console.log('B1. log userBRegisterDto.email', userBRegisterDto.email);
     const userB = await prismaService.user.findUnique({
       where: { email: userBRegisterDto.email },
     });
-    userBId = userB.id;
+
+    try {
+      userBId = userB.id;
+    } catch (error) {
+      console.log('B2. log userB', userB);
+      console.log(
+        'B3. log registerBResponse.body',
+        registerBResponse.status,
+        registerBResponse.body,
+      );
+      console.log(
+        'B4. log loginBResponse.body',
+        loginBResponse.status,
+        loginBResponse.body,
+      );
+    }
   });
 
   afterAll(async () => {
@@ -408,6 +440,8 @@ describe('TagsModule (e2e)', () => {
         const taskResponse = await request(app.getHttpServer())
           .get(`/api/tasks/${userATaskId}`)
           .set('Authorization', `Bearer ${userAToken}`);
+
+        // console.log('log taskResponse.body', taskResponse.body);
 
         expect(taskResponse.status).toBe(HttpStatus.OK);
         expect(taskResponse.body.tags).toBeDefined();
