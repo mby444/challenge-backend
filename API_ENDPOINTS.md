@@ -16,6 +16,8 @@ Base URL untuk API adalah `http://localhost:3000/api`.
 | Metode HTTP | Path            | Deskripsi                                    | Autentikasi Diperlukan |
 | :---------- | :-------------- | :------------------------------------------- | :--------------------- |
 | `GET`       | `/api/users/me` | Mengambil profil pengguna yang sedang login. | Ya                     |
+| `PATCH`     | `/api/users/me` | Memperbarui nama dan tanggal lahir pengguna yang sedang login. | Ya                     |
+| `DELETE`    | `/api/users/me` | Menghapus akun pengguna yang sedang login.   | Ya                     |
 
 ## Endpoint Tugas (`/api/tasks`)
 
