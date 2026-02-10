@@ -6,10 +6,10 @@
    a. (done) Terdiri dari minimal 2 operasi CRUD yang saling berkaitan. (Pengguna, Tugas, Tag)
    b. (done) Menyimpan data menggunakan database SQL (PostgreSQL, Prisma ORM)
    c. (done) Autentikasi API menggunakan token JWT.
-   d. (in progress) Buatkan fitur pengujian E2E untuk menguji token API-nya.
+   d. (done) Buatkan fitur pengujian E2E untuk menguji token API-nya.
    e. (done) Pilih pola proyek yang sering Anda gunakan. (Struktur berbasis modul)
    f. Jelaskan mengapa menggunakan pola tersebut di README GitHub.
-   g. Untuk dokumentasi API bisa pakai Postman atau sejenisnya.
+   g. (in progress) Untuk dokumentasi API bisa pakai Postman atau sejenisnya.
 
 2. Buat video demo aplikasi dengan spesifikasi:
    a. Demokan aplikasi di seluruh halaman.

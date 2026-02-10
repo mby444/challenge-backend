@@ -17,4 +17,9 @@
   - PATCH /api/users/me - Memperbarui nama dan tanggal lahir pengguna.
   - DELETE /api/users/me - Menghapus akun pengguna.
 
-- Melakukan API testing
+- (done) Melakukan API testing
+
+## 8 Februari 2026
+
+- Dokumentasi API menggunakan Postman
+- Gunakan DB khusus testing saat testing
