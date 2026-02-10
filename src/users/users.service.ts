@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client';
 
 @Injectable()
 export class UsersService {
@@ -15,15 +16,33 @@ export class UsersService {
   }
 
   async update(userId: string, updateUserDto: UpdateUserDto) {
-    const { password, ...user } = await this.prisma.user.update({
-      where: { id: userId },
-      data: updateUserDto,
-    });
+    try {
+      const { password, ...user } = await this.prisma.user.update({
+        where: { id: userId },
+        data: updateUserDto,
+      });
 
-    return user;
+      return user;
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('User not found');
+        }
+      }
+      throw error;
+    }
   }
 
   async remove(userId: string) {
-    await this.prisma.user.delete({ where: { id: userId } });
+    try {
+      await this.prisma.user.delete({ where: { id: userId } });
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('User not found');
+        }
+      }
+      throw error;
+    }
   }
 }
