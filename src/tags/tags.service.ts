@@ -36,7 +36,10 @@ export class TagsService {
   }
 
   async findOne(userId: string, id: string) {
-    const tag = await this.prisma.tag.findUnique({ where: { id } });
+    const tag = await this.prisma.tag.findUnique({
+      where: { id },
+      include: { tasks: true },
+    });
 
     if (!tag) {
       throw new NotFoundException(`Tag not found`);
@@ -54,6 +57,7 @@ export class TagsService {
   async update(userId: string, id: string, updateTagDto: UpdateTagDto) {
     const tag = await this.prisma.tag.findUnique({
       where: { id },
+      include: { tasks: true },
     });
 
     if (!tag) {
@@ -100,12 +104,9 @@ export class TagsService {
     await this.prisma.tag.delete({
       where: { id },
     });
-    return { message: 'Tag deleted successfully' };
   }
 
   async attachToTask(userId: string, tagId: string, taskId: string) {
-    // Ketika task tidak ketemu -> error
-    // Ketika task ketemu namun tag milik orang lain -> bisa disambung, seharusnya tidak
     const tag = await this.prisma.tag.findUnique({
       where: { id: tagId },
     });
@@ -135,6 +136,7 @@ export class TagsService {
     return this.prisma.tag.update({
       where: { id: tagId, userId },
       data: { tasks: { connect: [{ id: taskId }] } },
+      include: { tasks: true },
     });
   }
 
@@ -165,7 +167,7 @@ export class TagsService {
       );
     }
 
-    return this.prisma.tag.update({
+    await this.prisma.tag.update({
       where: { id: tagId, userId },
       data: { tasks: { disconnect: [{ id: taskId }] } },
     });

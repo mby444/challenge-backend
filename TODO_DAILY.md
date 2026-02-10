@@ -22,4 +22,7 @@
 ## 8 Februari 2026
 
 - Dokumentasi API menggunakan Postman
+
+## 9 Februari 2026
+
 - Gunakan DB khusus testing saat testing

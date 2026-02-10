@@ -23,6 +23,7 @@ export class TasksService {
   async findAll(userId: string) {
     return this.prisma.task.findMany({
       where: { userId },
+      include: { tags: true },
     });
   }
 
@@ -84,6 +85,5 @@ export class TasksService {
     await this.prisma.task.delete({
       where: { id },
     });
-    return { message: 'Task deleted successfully' };
   }
 }

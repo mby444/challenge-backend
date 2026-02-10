@@ -12,7 +12,7 @@ export class UpdateUserDto {
 
   @ApiPropertyOptional({
     description: 'User date of birth in ISO 8601 format',
-    example: '1992-05-20',
+    example: '1998-01-15T00:00:00.000Z',
     format: 'date',
   })
   @IsOptional()

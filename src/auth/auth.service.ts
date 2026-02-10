@@ -26,8 +26,15 @@ export class AuthService {
         },
       });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user;
-      return result;
+      const { password, ...userWithoutPassword } = user;
+
+      const payload = { email: user.email, sub: user.id };
+      const access_token = this.jwtService.sign(payload);
+
+      return {
+        user: userWithoutPassword,
+        access_token,
+      };
     } catch (error) {
       if (error.code === 'P2002') {
         throw new ConflictException('Email already exists');
@@ -54,8 +61,12 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...userWithoutPassword } = user;
     const payload = { email: user.email, sub: user.id };
+
     return {
+      user: userWithoutPassword,
       access_token: this.jwtService.sign(payload),
     };
   }
