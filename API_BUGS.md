@@ -49,7 +49,10 @@ name      String    // ✅ Removed @unique constraint
 
 ## 🟡 HIGH SEVERITY BUGS
 
-### 2. Task Update - Missing Response Include
+### 2. Task Update - Missing Response Include ✅ FIXED
+
+**Status:** ✅ **FIXED on February 10, 2026 at 6:10 PM**  
+**Details:** See `HIGH_PRIORITY_FIXES_REPORT.md`
 
 **File:** `src/tasks/tasks.service.ts`  
 **Method:** `update()` - Line 64-67
@@ -76,19 +79,27 @@ return this.prisma.task.update({
 - Frontend harus melakukan query tambahan untuk mendapatkan tags
 - Inkonsistensi dengan endpoint GET
 
-**Fix yang diperlukan:**
+**Fix yang diterapkan:**
 
 ```typescript
 return this.prisma.task.update({
-  where: { id },
+  where: { id, userId }, // Also optimized!
   data: updateTaskDto,
-  include: { tags: true }, // ✅ Add this
+  include: { tags: true }, // ✅ Added
 });
 ```
 
+**Result:**
+
+- ✅ Response now includes tags array
+- ✅ Also eliminated duplicate query (bonus optimization!)
+
 ---
 
-### 3. Task Create - Missing Response Include
+### 3. Task Create - Missing Response Include ✅ FIXED
+
+**Status:** ✅ **FIXED on February 10, 2026 at 6:10 PM**  
+**Details:** See `HIGH_PRIORITY_FIXES_REPORT.md`
 
 **File:** `src/tasks/tasks.service.ts`  
 **Method:** `create()` - Line 15-20
@@ -115,7 +126,7 @@ return this.prisma.task.create({
 - Response dari create task tidak include tags field
 - Frontend mungkin error jika expect tags field
 
-**Fix yang diperlukan:**
+**Fix yang diterapkan:**
 
 ```typescript
 return this.prisma.task.create({
@@ -123,9 +134,14 @@ return this.prisma.task.create({
     ...createTaskDto,
     userId: userId,
   },
-  include: { tags: true }, // ✅ Add this
+  include: { tags: true }, // ✅ Added
 });
 ```
+
+**Result:**
+
+- ✅ Response now includes `tags: []` field
+- ✅ Consistent with other endpoints
 
 ---
 

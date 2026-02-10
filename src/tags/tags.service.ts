@@ -7,6 +7,7 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client';
 
 @Injectable()
 export class TagsService {
@@ -55,55 +56,40 @@ export class TagsService {
   }
 
   async update(userId: string, id: string, updateTagDto: UpdateTagDto) {
-    const tag = await this.prisma.tag.findUnique({
-      where: { id },
-      include: { tasks: true },
-    });
-
-    if (!tag) {
-      throw new NotFoundException(`Tag not found`);
-    }
-
-    if (tag.userId !== userId) {
-      throw new UnauthorizedException(
-        `You are not authorized to update tag with ID ${id}`,
-      );
-    }
-
     try {
       const tag = await this.prisma.tag.update({
-        where: { id },
+        where: { id, userId },
         data: updateTagDto,
       });
       return tag;
     } catch (error) {
-      if (error.code === 'P2002') {
-        throw new ConflictException(
-          'Tag with this name already exists for this user',
-        );
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new ConflictException(
+            'Tag with this name already exists for this user',
+          );
+        }
+        if (error.code === 'P2025') {
+          throw new NotFoundException(`Tag not found`);
+        }
       }
       throw error;
     }
   }
 
   async remove(userId: string, id: string) {
-    const tag = await this.prisma.tag.findUnique({
-      where: { id },
-    });
-
-    if (!tag) {
-      throw new NotFoundException(`Tag not found`);
+    try {
+      await this.prisma.tag.delete({
+        where: { id, userId },
+      });
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(`Tag not found`);
+        }
+      }
+      throw error;
     }
-
-    if (tag.userId !== userId) {
-      throw new UnauthorizedException(
-        `You are not authorized to delete tag with ID ${id}`,
-      );
-    }
-
-    await this.prisma.tag.delete({
-      where: { id },
-    });
   }
 
   async attachToTask(userId: string, tagId: string, taskId: string) {
@@ -134,7 +120,7 @@ export class TagsService {
     }
 
     return this.prisma.tag.update({
-      where: { id: tagId, userId },
+      where: { id: tagId },
       data: { tasks: { connect: [{ id: taskId }] } },
       include: { tasks: true },
     });
@@ -168,7 +154,7 @@ export class TagsService {
     }
 
     await this.prisma.tag.update({
-      where: { id: tagId, userId },
+      where: { id: tagId },
       data: { tasks: { disconnect: [{ id: taskId }] } },
     });
   }
