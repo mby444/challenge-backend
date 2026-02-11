@@ -40,9 +40,11 @@ describe('AuthModule (e2e)', () => {
 
       expect(response.status).toBe(201);
       expect(response.body).toBeDefined();
-      expect(response.body.email).toBe(registerUserDto.email);
-      expect(response.body.name).toBe(registerUserDto.name);
-      expect(response.body.password).toBeUndefined(); // Password should not be returned
+      expect(response.body.user).toBeDefined();
+      expect(response.body.access_token).toBeDefined();
+      expect(response.body.user.email).toBe(registerUserDto.email);
+      expect(response.body.user.name).toBe(registerUserDto.name);
+      expect(response.body.user.password).toBeUndefined(); // Password should not be returned
     });
 
     it('[Gagal] Mendaftar dengan email yang sudah ada.', async () => {

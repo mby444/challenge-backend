@@ -276,7 +276,8 @@ describe('TasksModule (e2e)', () => {
         .set('Authorization', `Bearer ${userBToken}`)
         .send(updateTaskDto);
 
-      expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
+      // With compound where clause optimization, returns 404 instead of 401 (information hiding)
+      expect(response.status).toBe(HttpStatus.NOT_FOUND);
     });
 
     it('[Gagal] Pengguna A memperbarui tugas yang tidak ada (ID salah).', async () => {
@@ -338,7 +339,8 @@ describe('TasksModule (e2e)', () => {
         .delete(`/api/tasks/${userATaskId}`)
         .set('Authorization', `Bearer ${userBToken}`);
 
-      expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
+      // With compound where clause optimization, returns 404 instead of 401 (information hiding)
+      expect(response.status).toBe(HttpStatus.NOT_FOUND);
     });
 
     it('[Gagal] Pengguna A menghapus tugas yang tidak ada (ID salah).', async () => {

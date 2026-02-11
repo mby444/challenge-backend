@@ -228,7 +228,8 @@ describe('TagsModule (e2e)', () => {
         .set('Authorization', `Bearer ${userBToken}`)
         .send(updateTagDto);
 
-      expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
+      // With compound where clause optimization, returns 404 instead of 401 (information hiding)
+      expect(response.status).toBe(HttpStatus.NOT_FOUND);
     });
 
     it('[Gagal] Memperbarui tag yang tidak ada.', async () => {
@@ -293,7 +294,8 @@ describe('TagsModule (e2e)', () => {
         .delete(`/api/tags/${userATagId}`)
         .set('Authorization', `Bearer ${userBToken}`);
 
-      expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
+      // With compound where clause optimization, returns 404 instead of 401 (information hiding)
+      expect(response.status).toBe(HttpStatus.NOT_FOUND);
     });
 
     it('[Gagal] Menghapus tag yang tidak ada.', async () => {

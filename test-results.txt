@@ -1,0 +1,237 @@
+﻿
+> challenge-backend@0.0.1 test:e2e
+> jest --config ./test/jest-e2e.json --runInBand
+
+node.exe : FAIL 
+test/tags.e2e-spec.ts (17.501 
+s)
+At C:\nvm4w\nodejs\npm.ps1:16 
+char:5
++     & "$basedir/node$exe"  "$
+basedir/node_modules/npm/bin/np
+m-cli.js" ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
+    + CategoryInfo          :  
+   NotSpecified: (FAIL test/t  
+  ags.e2e-spec.ts (17.501 s)   
+ :String) [], RemoteExcepti    
+on
+    + FullyQualifiedErrorId :  
+   NativeCommandError
+ 
+  ΓùÅ TagsModule (e2e) ΓÇ║ 
+PATCH /api/tags/:id ΓÇ║ 
+[Gagal] Pengguna B mencoba 
+memperbarui tag milik Pengguna 
+A.
+
+    expect(received).toBe(expec
+ted) // Object.is equality
+
+    Expected: 401
+    Received: 404
+
+    [0m [90m 229 |[39m      
+   [33m.[39msend(updateTagDto
+)[33m;[39m
+     [90m 230 |[39m
+    [31m[1m>[22m[39m[90m 
+231 |[39m       expect(respons
+e[33m.[39mstatus)[33m.[39mt
+oBe([33mHttpStatus[39m[33m.
+[39m[33mUNAUTHORIZED[39m)[33
+m;[39m
+     [90m     |[39m          
+                     
+[31m[1m^[22m[39m
+     [90m 232 |[39m     
+})[33m;[39m
+     [90m 233 |[39m
+     [90m 234 |[39m     
+it([32m'[Gagal] Memperbarui 
+tag yang tidak 
+ada.'[39m[33m,[39m 
+[36masync[39m () 
+[33m=>[39m {[0m
+
+      at Object.<anonymous> 
+(tags.e2e-spec.ts:231:31)
+
+  ΓùÅ TagsModule (e2e) ΓÇ║ 
+DELETE /api/tags/:id ΓÇ║ 
+[Gagal] Pengguna B mencoba 
+menghapus tag milik Pengguna A.
+
+    expect(received).toBe(expec
+ted) // Object.is equality
+
+    Expected: 401
+    Received: 404
+
+    [0m [90m 294 |[39m      
+   [33m.[39m[36mset[39m([3
+2m'Authorization'[39m[33m,[3
+9m [32m`Bearer 
+${userBToken}`[39m)[33m;[39m
+     [90m 295 |[39m
+    [31m[1m>[22m[39m[90m 
+296 |[39m       expect(respons
+e[33m.[39mstatus)[33m.[39mt
+oBe([33mHttpStatus[39m[33m.
+[39m[33mUNAUTHORIZED[39m)[33
+m;[39m
+     [90m     |[39m          
+                     
+[31m[1m^[22m[39m
+     [90m 297 |[39m     
+})[33m;[39m
+     [90m 298 |[39m
+     [90m 299 |[39m     
+it([32m'[Gagal] Menghapus tag 
+yang tidak 
+ada.'[39m[33m,[39m 
+[36masync[39m () 
+[33m=>[39m {[0m
+
+      at Object.<anonymous> 
+(tags.e2e-spec.ts:296:31)
+
+FAIL test/tasks.e2e-spec.ts 
+(14.747 s)
+  ΓùÅ TasksModule (e2e) ΓÇ║ 
+PATCH /api/tasks/:id ΓÇ║ 
+[Gagal] Pengguna B mencoba 
+memperbarui tugas milik 
+Pengguna A.
+
+    expect(received).toBe(expec
+ted) // Object.is equality
+
+    Expected: 401
+    Received: 404
+
+    [0m [90m 277 |[39m      
+   [33m.[39msend(updateTaskDt
+o)[33m;[39m
+     [90m 278 |[39m
+    [31m[1m>[22m[39m[90m 
+279 |[39m       expect(respons
+e[33m.[39mstatus)[33m.[39mt
+oBe([33mHttpStatus[39m[33m.
+[39m[33mUNAUTHORIZED[39m)[33
+m;[39m
+     [90m     |[39m          
+                     
+[31m[1m^[22m[39m
+     [90m 280 |[39m     
+})[33m;[39m
+     [90m 281 |[39m
+     [90m 282 |[39m     
+it([32m'[Gagal] Pengguna A 
+memperbarui tugas yang tidak 
+ada (ID 
+salah).'[39m[33m,[39m 
+[36masync[39m () 
+[33m=>[39m {[0m
+
+      at Object.<anonymous> 
+(tasks.e2e-spec.ts:279:31)
+
+  ΓùÅ TasksModule (e2e) ΓÇ║ 
+DELETE /api/tasks/:id ΓÇ║ 
+[Gagal] Pengguna B mencoba 
+menghapus tugas milik Pengguna 
+A.
+
+    expect(received).toBe(expec
+ted) // Object.is equality
+
+    Expected: 401
+    Received: 404
+
+    [0m [90m 339 |[39m      
+   [33m.[39m[36mset[39m([3
+2m'Authorization'[39m[33m,[3
+9m [32m`Bearer 
+${userBToken}`[39m)[33m;[39m
+     [90m 340 |[39m
+    [31m[1m>[22m[39m[90m 
+341 |[39m       expect(respons
+e[33m.[39mstatus)[33m.[39mt
+oBe([33mHttpStatus[39m[33m.
+[39m[33mUNAUTHORIZED[39m)[33
+m;[39m
+     [90m     |[39m          
+                     
+[31m[1m^[22m[39m
+     [90m 342 |[39m     
+})[33m;[39m
+     [90m 343 |[39m
+     [90m 344 |[39m     
+it([32m'[Gagal] Pengguna A 
+menghapus tugas yang tidak ada 
+(ID salah).'[39m[33m,[39m 
+[36masync[39m () 
+[33m=>[39m {[0m
+
+      at Object.<anonymous> 
+(tasks.e2e-spec.ts:341:31)
+
+FAIL test/auth.e2e-spec.ts
+  ΓùÅ AuthModule (e2e) ΓÇ║ 
+POST /api/auth/register ΓÇ║ 
+[Sukses] Mendaftar dengan 
+email dan password yang valid.
+
+    expect(received).toBe(expec
+ted) // Object.is equality
+
+    Expected: 
+"test@example.com"
+    Received: undefined
+
+    [0m [90m 41 |[39m       
+expect(response[33m.[39mstatu
+s)[33m.[39mtoBe([35m201[39m
+)[33m;[39m
+     [90m 42 |[39m       expe
+ct(response[33m.[39mbody)[33
+m.[39mtoBeDefined()[33m;[39m
+    [31m[1m>[22m[39m[90m 
+43 |[39m       expect(response
+[33m.[39mbody[33m.[39memail
+)[33m.[39mtoBe(registerUserDt
+o[33m.[39memail)[33m;[39m
+     [90m    |[39m           
+                        
+[31m[1m^[22m[39m
+     [90m 44 |[39m       expe
+ct(response[33m.[39mbody[33m
+.[39mname)[33m.[39mtoBe(regi
+sterUserDto[33m.[39mname)[33
+m;[39m
+     [90m 45 |[39m       expe
+ct(response[33m.[39mbody[33m
+.[39mpassword)[33m.[39mtoBeU
+ndefined()[33m;[39m [90m// 
+Password should not be 
+returned[39m
+     [90m 46 |[39m     
+})[33m;[39m[0m
+
+      at Object.<anonymous> 
+(auth.e2e-spec.ts:43:35)
+
+PASS test/users.e2e-spec.ts
+PASS test/app.e2e-spec.ts
+
+Test Suites: 3 failed, 2 
+passed, 5 total
+Tests:       5 failed, 49 
+passed, 54 total
+Snapshots:   0 total
+Time:        40.705 s, 
+estimated 59 s
+Ran all test suites.
