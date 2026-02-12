@@ -23,6 +23,7 @@
 
 - Dokumentasi API menggunakan Postman
 
-## 9 Februari 2026
+## 12 Februari 2026
 
 - Gunakan DB khusus testing saat testing
+- (done) Perbaiki format validasi tanggal lahir saat register
