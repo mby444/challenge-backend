@@ -4,7 +4,7 @@
 
 1. Buatlah aplikasi REST API sederhana dengan NestJS TypeScript dengan kriteria sebagai berikut:
    a. (done) Terdiri dari minimal 2 operasi CRUD yang saling berkaitan. (Pengguna, Tugas, Tag)
-   b. (done) Menyimpan data menggunakan database SQL (PostgreSQL, Prisma ORM)
+   b. (done) Menyimpan data menggunakan database SQL (SQLite, Prisma ORM)
    c. (done) Autentikasi API menggunakan token JWT.
    d. (done) Buatkan fitur pengujian E2E untuk menguji token API-nya.
    e. (done) Pilih pola proyek yang sering Anda gunakan. (Struktur berbasis modul)
