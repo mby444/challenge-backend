@@ -11,7 +11,9 @@ import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     AuthModule,
     PrismaModule,
     TasksModule,
