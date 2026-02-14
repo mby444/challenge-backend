@@ -8,7 +8,7 @@
    c. (done) Autentikasi API menggunakan token JWT.
    d. (done) Buatkan fitur pengujian E2E untuk menguji token API-nya.
    e. (done) Pilih pola proyek yang sering Anda gunakan. (Struktur berbasis modul)
-   f. Jelaskan mengapa menggunakan pola tersebut di README GitHub.
+   f. (done) Jelaskan mengapa menggunakan pola tersebut di README GitHub.
    g. (in progress) Untuk dokumentasi API bisa pakai Postman atau sejenisnya.
 
 2. Buat video demo aplikasi dengan spesifikasi:
